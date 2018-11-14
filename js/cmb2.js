@@ -641,7 +641,8 @@ window.CMB2 = window.CMB2 || {};
 		cmb.newRowHousekeeping( $row.data( 'title', $this.data( 'grouptitle' ) ) ).cleanRow( $row, prevNum, true );
 		$row.find( '.cmb-add-row-button' ).prop( 'disabled', false );
 
-		var $newRow = $( '<' + $row.prop('nodeName') + ' class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'+ cmb.idNumber +'">'+ $row.html() +'</>' );
+		var $newRow = $( '<' + $row.prop('nodeName') + ' class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'+ cmb.idNumber +'">'+ $row.html() +'</' + $row.prop('nodeName') + '>' );
+
 		$oldRow.after( $newRow );
 
 		cmb.afterRowInsert( $newRow );
@@ -730,7 +731,6 @@ window.CMB2 = window.CMB2 || {};
 	};
 
 	cmb.shiftRows = function( evt ) {
-
 		evt.preventDefault();
 
 		var $this = $( this );
@@ -983,6 +983,24 @@ window.CMB2 = window.CMB2 || {};
 			$repeatables.sortable({
 				items : '.cmb-repeat-row',
 				cursor: 'move'
+			});
+		}
+
+		var $repeatableGroups = cmb.metabox().find( '.cmb-repeatable-group.sortable' );
+		if ( $repeatableGroups.length ) {
+			$repeatableGroups.sortable({
+				items : '.cmb-repeatable-grouping',
+				cursor: 'move',
+				stop: function (ev) {
+					var $group =  $( ev.target ).parent();
+					var iterator = 1;
+					var title = $group.find('.cmb-add-group-row' ).data( 'grouptitle' );
+					$group.find( '.cmb-repeatable-grouping' ).each( function( i, row ){
+						var $row = $( row );
+						$row.find( 'h3.cmb-group-title' ).text( title.replace( '{#}', ( iterator ) ) );
+						iterator++;
+					});
+				}
 			});
 		}
 	};
