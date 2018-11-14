@@ -642,7 +642,6 @@ window.CMB2 = window.CMB2 || {};
 		$row.find( '.cmb-add-row-button' ).prop( 'disabled', false );
 
 		var $newRow = $( '<' + $row.prop('nodeName') + ' class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'+ cmb.idNumber +'">'+ $row.html() +'</' + $row.prop('nodeName') + '>' );
-		console.info( '<' + $row.prop('nodeName') + ' class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'+ cmb.idNumber +'">'+ $row.html() +'</' + $row.prop('nodeName') + '>' );
 		$oldRow.after( $newRow );
 
 		cmb.afterRowInsert( $newRow );
