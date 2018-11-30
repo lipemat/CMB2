@@ -1,35 +1,47 @@
 {
-    "name": "cmb2/cmb2",
-    "description": "CMB2 is a metabox, custom fields, and forms library for WordPress that will blow your mind.",
-    "license": "GPL-2.0-or-later",
-    "authors": [
-        {
-            "name": "Justin Sternberg",
-            "email": "justin@dsgnwrks.pro",
-            "homepage": "https://dsgnwrks.pro",
-            "role": "Developer"
-        },
-        {
-            "name": "WebDevStudios",
-            "email": "contact@webdevstudios.com",
-            "homepage": "https://github.com/WebDevStudios",
-            "role": "Developer"
-        }
-    ],
-    "keywords": ["wordpress", "plugin", "metabox"],
-    "homepage": "https://github.com/CMB2/CMB2",
-    "type": "wordpress-plugin",
-    "support": {
-        "issues": "https://github.com/CMB2/CMB2/issues",
-        "source": "http://wordpress.org/support/plugin/cmb2"
+  "name": "lipemat/cmb2",
+  "description": "Fork if CMB2 with many added features for a clean UI.",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Justin Sternberg",
+      "email": "justin@dsgnwrks.pro",
+      "homepage": "https://dsgnwrks.pro",
+      "role": "Developer"
     },
-    "require": {
-        "php": ">5.2.4"
+    {
+      "name": "WebDevStudios",
+      "email": "contact@webdevstudios.com",
+      "homepage": "https://github.com/WebDevStudios",
+      "role": "Developer"
     },
-    "suggest": {
-        "composer/installers": "~1.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
+    {
+      "name": "Mat Lipe",
+      "email": "mat@matlipe.com",
+      "homepage": "https://matlipe.com",
+      "role": "Developer"
     }
+  ],
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "metabox"
+  ],
+  "homepage": "https://github.com/lipemat/CMB2",
+  "type": "wordpress-plugin",
+  "support": {
+    "issues": "https://github.com/lipemat/CMB2/issues",
+    "source": "https://github.com/lipemat/CMB2"
+  },
+  "require": {
+    "php": ">=7.1.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*"
+  },
+  "autoload": {
+    "files": [
+      "vendor/lipemat/cmb2/init.php"
+    ]
+  }
 }
