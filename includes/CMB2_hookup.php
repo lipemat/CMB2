@@ -516,7 +516,15 @@ class CMB2_hookup extends CMB2_Hookup_Base {
 		add_filter( "postbox_classes_{$page}_{$this->cmb->cmb_id}", array( $this, 'postbox_classes' ) );
 
 		foreach ( $this->cmb->box_types() as $object_type ) {
-			add_meta_box( $this->cmb->cmb_id, $this->cmb->prop( 'title' ), array( $this, 'metabox_callback' ), $object_type, $this->cmb->prop( 'context' ), $this->cmb->prop( 'priority' ) );
+			add_meta_box(
+				$this->cmb->cmb_id,
+				$this->cmb->prop( 'title' ),
+				array( $this, 'metabox_callback' ),
+				$object_type,
+				$this->cmb->prop( 'context' ),
+				$this->cmb->prop( 'priority' ),
+				$this->cmb->prop( 'mb_callback_args' )
+			);
 		}
 	}
 
