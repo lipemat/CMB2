@@ -1,14 +1,30 @@
 # CMB2
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/CMB2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Travis](https://img.shields.io/travis/CMB2/CMB2.svg)](https://travis-ci.org/CMB2/CMB2/)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/CMB2/CMB2.svg)](https://scrutinizer-ci.com/g/CMB2/CMB2/?branch=trunk)
-[![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/CMB2/CMB2.svg)](https://scrutinizer-ci.com/g/CMB2/CMB2/?branch=trunk)
-[![Project Stats](https://www.openhub.net/p/CMB2/widgets/project_thin_badge.gif)](https://www.openhub.net/p/CMB2)
+This is a maintained fork of the original [CMB2 WordPress plugin](https://wordpress.org/plugins/cmb2/). All orignal functional will be kept available within this fork.
 
-![CMB2](https://plugins.trac.wordpress.org/export/HEAD/cmb2/assets/banner-1544x500.png)
+## Purpose of this fork
 
-**Contributors:**      [jtsternberg](https://github.com/jtsternberg), [webdevstudios](https://github.com/webdevstudios), [zao](https://github.com/zao-web), [humanmade](https://github.com/humanmade)  
+Sometimes pull request take a while or never get approved. This fork has any pull requests I have submitted already merged and ready to use.
+
+### Enhancements (non exhaustive)
+1. [Drag sorting for repeatable fields.](https://github.com/CMB2/CMB2/pull/1142)
+2. [Drag sorting for groups.](https://github.com/CMB2/CMB2/pull/1145)
+3. [Support custom elements in group markup.](https://github.com/CMB2/CMB2/pull/1187)
+4. [Remove default taxonomy meta boxes from any meta box context.](https://github.com/CMB2/CMB2/pull/1147)
+
+### Installation
+```bash
+composer require lipemat/cmb2
+```
+
+### Usage
+```php
+require __DIR__ . '/vendor/autoload.php'
+```
+
+### Original Readme
+
+**Contributors:**  [Mat Lipe](https://github.com/lipemat),    [jtsternberg](https://github.com/jtsternberg), [webdevstudios](https://github.com/webdevstudios), [zao](https://github.com/zao-web), [humanmade](https://github.com/humanmade)  
 **Homepage:**          [https://cmb2.io](https://cmb2.io)  
 **Tags:**              metaboxes, forms, fields, options, settings  
 **Requires at least:** 3.8.0  
