@@ -41,7 +41,7 @@
   },
   "autoload": {
     "files": [
-      "vendor/lipemat/cmb2/init.php"
+      "init.php"
     ]
   }
 }
