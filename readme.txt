@@ -1,11 +1,11 @@
 === CMB2 ===
-Contributors:      jtsternberg, webdevstudios, tw2113
+Contributors:      mat-lipe, jtsternberg, webdevstudios, tw2113
 Donate link:       https://cmb2.io
 Tags:              metaboxes, forms, fields, options, settings
-Requires at least: 3.8.0
-Requires PHP:      5.2
-Tested up to:      4.9.6
-Stable tag:        2.4.2
+Requires at least: 4.4.0
+Requires PHP:      7.1.3
+Tested up to:      4.9.8
+Stable tag:        2.4.3
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
