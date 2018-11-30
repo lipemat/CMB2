@@ -9,11 +9,12 @@
  * @link         https://cmb2.io
  *
  * Plugin Name:  CMB2
- * Plugin URI:   https://github.com/CMB2/CMB2
+ * Plugin URI:   https://github.com/lipemat/CMB2
  * Description:  CMB2 will create metaboxes and forms with custom fields that will blow your mind.
  * Author:       CMB2 team
  * Author URI:   https://cmb2.io
- * Contributors: Justin Sternberg (@jtsternberg / dsgnwrks.pro)
+ * Contributors: Mat Lipe (@lipemat / matlipe.com )
+ *               Justin Sternberg (@jtsternberg / dsgnwrks.pro)
  *               WebDevStudios (@webdevstudios / webdevstudios.com)
  *               Human Made (@humanmadeltd / hmn.md)
  *               Jared Atchison (@jaredatch / jaredatchison.com)
