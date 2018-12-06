@@ -1,6 +1,6 @@
 # CMB2
+This is a maintained fork of the original [CMB2 WordPress plugin](https://wordpress.org/plugins/cmb2/). All original functional will be kept available within this fork.
 
-This is a maintained fork of the original [CMB2 WordPress plugin](https://wordpress.org/plugins/cmb2/). All orignal functional will be kept available within this fork.
 
 ## Purpose of this fork
 
