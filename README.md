@@ -11,6 +11,7 @@ Sometimes pull request take a while or never get approved. This fork has any pul
 2. [Drag sorting for groups.](https://github.com/CMB2/CMB2/pull/1145)
 3. [Support custom elements in group markup.](https://github.com/CMB2/CMB2/pull/1187)
 4. [Remove default taxonomy meta boxes from any meta box context.](https://github.com/CMB2/CMB2/pull/1147)
+5. [Fix `rest_value_cb` field parameter](https://github.com/CMB2/CMB2/pull/1212)
 
 ### Installation
 ```bash
