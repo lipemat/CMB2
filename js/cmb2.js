@@ -37,14 +37,6 @@ window.CMB2 = window.CMB2 || {};
 		},
 	};
 
-	cmb.metabox = function() {
-		if ( cmb.$metabox ) {
-			return cmb.$metabox;
-		}
-		cmb.$metabox = $('.cmb2-wrap > .cmb2-metabox');
-		return cmb.$metabox;
-	};
-
 	cmb.init = function() {
 		$document = $( document );
 
@@ -130,8 +122,10 @@ window.CMB2 = window.CMB2 || {};
 		}
 
 		wp.data.subscribe( function() {
+			var editor = wp.data.hasOwnProperty('select') ? wp.data.select( 'core/editor' ) : null;
+
 			// the post is currently being saved && we have tinymce editors
-			if ( wp.data.select( 'core/editor' ).isSavingPost() && window.tinyMCE.editors.length ) {
+			if ( editor && editor.isSavingPost && editor.isSavingPost() && window.tinyMCE.editors.length ) {
 				for ( var i = 0; i < window.tinyMCE.editors.length; i++ ) {
 					window.tinyMCE.editors[i].save();
 				}
@@ -564,7 +558,7 @@ window.CMB2 = window.CMB2 || {};
 			$newInput.html( newVal );
 		}
 
-		if ( 'SELECT' === tagName && undefined !== typeof defVal ) {
+		if ( 'SELECT' === tagName && 'undefined' !== typeof defVal ) {
 			var $toSelect = $newInput.find( '[value="'+ defVal + '"]' );
 			if ( $toSelect.length ) {
 				$toSelect.attr( 'selected', 'selected' ).prop( 'selected', 'selected' );
@@ -573,7 +567,7 @@ window.CMB2 = window.CMB2 || {};
 
 		if ( checkable ) {
 			$newInput.removeAttr( 'checked' );
-			if ( undefined !== typeof defVal && oldVal === defVal ) {
+			if ( 'undefined' !== typeof defVal && oldVal === defVal ) {
 				$newInput.attr( 'checked', 'checked' ).prop( 'checked', 'checked' );
 			}
 		}
@@ -590,7 +584,6 @@ window.CMB2 = window.CMB2 || {};
 	};
 
 	cmb.newRowHousekeeping = function( $row ) {
-
 		var $colorPicker = $row.find( '.wp-picker-container' );
 		var $list        = $row.find( '.cmb2-media-status' );
 
@@ -616,12 +609,11 @@ window.CMB2 = window.CMB2 || {};
 	};
 
 	cmb.updateNameAttr = function () {
-
 		var $this = $( this );
 		var name  = $this.attr( 'name' ); // get current name
 
 		// If name is defined
-		if ( typeof name !== 'undefined' ) {
+		if ( 'undefined' !== typeof name ) {
 			var prevNum = parseInt( $this.parents( '.cmb-repeatable-grouping' ).data( 'iterator' ), 10 );
 			var newNum  = prevNum - 1; // Subtract 1 to get new iterator number
 
@@ -631,7 +623,6 @@ window.CMB2 = window.CMB2 || {};
 			// New name with replaced iterator
 			$this.attr( 'name', $newName );
 		}
-
 	};
 
 	cmb.emptyValue = function( evt, row ) {
@@ -704,7 +695,14 @@ window.CMB2 = window.CMB2 || {};
 	cmb.removeGroupRow = function( evt ) {
 		evt.preventDefault();
 
-		var $this   = $( this );
+		var $this        = $( this );
+		var confirmation = $this.data('confirm');
+
+		// Process further only if deletion confirmation enabled and user agreed.
+		if ( confirmation && ! window.confirm( confirmation ) ) {
+			return;
+		}
+
 		var $table  = $id( $this.data('selector') );
 		var $parent = $this.parents('.cmb-repeatable-grouping');
 		var number  = $table.find('.cmb-repeatable-grouping').length;
@@ -715,13 +713,12 @@ window.CMB2 = window.CMB2 || {};
 
 		cmb.triggerElement( $table, 'cmb2_remove_group_row_start', $this );
 
-		// when a group is removed loop through all next groups and update fields names
+		// When a group is removed, loop through all next groups and update fields names.
 		$parent.nextAll( '.cmb-repeatable-grouping' ).find( cmb.repeatEls ).each( cmb.updateNameAttr );
 
 		$parent.remove();
 
 		cmb.triggerElement( $table, { type: 'cmb2_remove_row', group: true } );
-
 	};
 
 	cmb.removeAjaxRow = function( evt ) {
@@ -862,6 +859,12 @@ window.CMB2 = window.CMB2 || {};
 	};
 
 	cmb.initPickers = function( $timePickers, $datePickers, $colorPickers ) {
+		cmb.trigger( 'cmb_init_pickers', {
+			time: $timePickers,
+			date: $datePickers,
+			color: $colorPickers
+		} );
+
 		// Initialize jQuery UI timepickers
 		cmb.initDateTimePickers( $timePickers, 'timepicker', 'time_picker' );
 		// Initialize jQuery UI datepickers
@@ -948,7 +951,7 @@ window.CMB2 = window.CMB2 || {};
 		if ( ! $selector.length ) {
 			return;
 		}
-		if ( typeof jQuery.wp === 'object' && typeof jQuery.wp.wpColorPicker === 'function' ) {
+		if ( 'object' === typeof jQuery.wp && 'function' === typeof jQuery.wp.wpColorPicker ) {
 
 			$selector.each( function() {
 				var $this = $( this );
@@ -971,10 +974,11 @@ window.CMB2 = window.CMB2 || {};
 	};
 
 	cmb.initCodeEditors = function( $selector ) {
+		cmb.trigger( 'cmb_init_code_editors', $selector );
+
 		if ( ! cmb.defaults.code_editor || ! wp || ! wp.codeEditor || ! $selector.length ) {
 			return;
 		}
-
 
 		$selector.each( function() {
 			wp.codeEditor.initialize(
@@ -1065,6 +1069,10 @@ window.CMB2 = window.CMB2 || {};
 
 	/**
 	 * Resize oEmbed videos to fit in their respective metaboxes
+	 *
+	 * @since  0.9.4
+	 *
+	 * @return {return}
 	 */
 	cmb.resizeoEmbeds = function() {
 		cmb.metabox().each( function() {
@@ -1114,23 +1122,7 @@ window.CMB2 = window.CMB2 || {};
 				var newHeight = Math.round((_newWidth * iheight)/iwidth);
 				$this.width(_newWidth).height(newHeight);
 			});
-
 		});
-	};
-
-	/**
-	 * Safely log things if query var is set
-	 * @since  1.0.0
-	 */
-	cmb.log = function() {
-		if ( l10n.script_debug && console && typeof console.log === 'function' ) {
-			console.log.apply(console, arguments);
-		}
-	};
-
-	cmb.spinner = function( $context, hide ) {
-		var m = hide ? 'removeClass' : 'addClass';
-		$('.cmb-spinner', $context )[ m ]( 'is-active' );
 	};
 
 	// function for running our ajax
@@ -1188,18 +1180,164 @@ window.CMB2 = window.CMB2 || {};
 
 	};
 
+	/**
+	 * Gets jQuery object containing all CMB metaboxes. Caches the result.
+	 *
+	 * @since  1.0.2
+	 *
+	 * @return {Object} jQuery object containing all CMB metaboxes.
+	 */
+	cmb.metabox = function() {
+		if ( cmb.$metabox ) {
+			return cmb.$metabox;
+		}
+		cmb.$metabox = $('.cmb2-wrap > .cmb2-metabox');
+		return cmb.$metabox;
+	};
+
+	/**
+	 * Starts/stops contextual spinner.
+	 *
+	 * @since  1.0.1
+	 *
+	 * @param  {object} $context The jQuery parent/context object.
+	 * @param  {bool} hide       Whether to hide the spinner (will show by default).
+	 *
+	 * @return {void}
+	 */
+	cmb.spinner = function( $context, hide ) {
+		var m = hide ? 'removeClass' : 'addClass';
+		$('.cmb-spinner', $context )[ m ]( 'is-active' );
+	};
+
+	/**
+	 * Triggers a jQuery event on the document object.
+	 *
+	 * @since  2.2.3
+	 *
+	 * @param  {string} evtName The name of the event to trigger.
+	 *
+	 * @return {void}
+	 */
 	cmb.trigger = function( evtName ) {
 		var args = Array.prototype.slice.call( arguments, 1 );
 		args.push( cmb );
 		$document.trigger( evtName, args );
 	};
 
+	/**
+	 * Triggers a jQuery event on the given jQuery object.
+	 *
+	 * @since  2.2.3
+	 *
+	 * @param  {object} $el     The jQuery element object.
+	 * @param  {string} evtName The name of the event to trigger.
+	 *
+	 * @return {void}
+	 */
 	cmb.triggerElement = function( $el, evtName ) {
 		var args = Array.prototype.slice.call( arguments, 2 );
 		args.push( cmb );
 		$el.trigger( evtName, args );
 	};
 
+	/**
+	 * Get an argument for a given field.
+	 *
+	 * @since  2.5.0
+	 *
+	 * @param  {string|object} hash The field hash, id, or a jQuery object for a field.
+	 * @param  {string}        arg  The argument to get on the field.
+	 *
+	 * @return {mixed}              The argument value.
+	 */
+	cmb.getFieldArg = function( hash, arg ) {
+		return cmb.getField( hash )[ arg ];
+	};
+
+	/**
+	 * Get a field object instances. Can be filtered by passing in a filter callback function.
+	 * e.g. `const fileFields = CMB2.getFields(f => 'file' === f.type);`
+	 *
+	 * @since  2.5.0
+	 *
+	 * @param  {mixed} filterCb An optional filter callback function.
+	 *
+	 * @return array            An array of field object instances.
+	 */
+	cmb.getFields = function( filterCb ) {
+		if ( 'function' === typeof filterCb ) {
+			var fields = [];
+			$.each( l10n.fields, function( hash, field ) {
+				if ( filterCb( field, hash ) ) {
+					fields.push( field );
+				}
+			});
+			return fields;
+		}
+
+		return l10n.fields;
+	};
+
+	/**
+	 * Get a field object instance by hash or id.
+	 *
+	 * @since  2.5.0
+	 *
+	 * @param  {string|object} hash The field hash, id, or a jQuery object for a field.
+	 *
+	 * @return {object}        The field object or an empty object.
+	 */
+	cmb.getField = function( hash ) {
+		var field = {};
+		hash = hash instanceof jQuery ? hash.data( 'hash' ) : hash;
+		if ( hash ) {
+			try {
+				if ( l10n.fields[ hash ] ) {
+					throw new Error( hash );
+				}
+
+				cmb.getFields( function( field ) {
+					if ( 'function' === typeof hash ) {
+						if ( hash( field ) ) {
+							throw new Error( field.hash );
+						}
+					} else  if ( field.id && field.id === hash ) {
+						throw new Error( field.hash );
+					}
+				});
+			} catch( e ) {
+				field = l10n.fields[ e.message ];
+			}
+		}
+
+		return field;
+	};
+
+	/**
+	 * Safely log things if query var is set. Accepts same parameters as console.log.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @return {void}
+	 */
+	cmb.log = function() {
+		if ( l10n.script_debug && console && 'function' === typeof console.log ) {
+			console.log.apply(console, arguments);
+		}
+	};
+
+	/**
+	 * Replace the last occurrence of a string.
+	 *
+	 * @since  2.2.6
+	 *
+	 * @param  {string} string  String to search/replace.
+	 * @param  {string} search  String to search.
+	 * @param  {string} replace String to replace search with.
+	 *
+	 * @return {string}         Possibly modified string.
+	 */
 	cmb.replaceLast = function( string, search, replace ) {
 		// find the index of last time word was used
 		var n = string.lastIndexOf( search );
@@ -1209,15 +1347,7 @@ window.CMB2 = window.CMB2 || {};
 		return string.slice( 0, n ) + string.slice( n ).replace( search, replace );
 	};
 
-	cmb.getFieldArg = function( hash, arg ) {
-		return cmb.getField( hash )[ arg ];
-	};
-
-	cmb.getField = function( hash ) {
-		hash = hash instanceof jQuery ? hash.data( 'hash' ) : hash;
-		return hash && l10n.fields[ hash ] ? l10n.fields[ hash ] : {};
-	};
-
+	// Kick it off!
 	$( cmb.init );
 
 })(window, document, jQuery, window.CMB2);
