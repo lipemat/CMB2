@@ -129,8 +129,7 @@ module.exports = function(grunt) {
 		sass: {
 			dist: {
 				options: {
-					style: 'expanded',
-					lineNumbers: true
+					style: 'expanded'
 				},
 				files: {
 				  'css/cmb2.css': 'css/sass/cmb2.scss',

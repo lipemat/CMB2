@@ -127,7 +127,9 @@ window.CMB2 = window.CMB2 || {};
 			// the post is currently being saved && we have tinymce editors
 			if ( editor && editor.isSavingPost && editor.isSavingPost() && window.tinyMCE.editors.length ) {
 				for ( var i = 0; i < window.tinyMCE.editors.length; i++ ) {
-					window.tinyMCE.editors[i].save();
+					if ( window.tinyMCE.activeEditor !== window.tinyMCE.editors[i] ) {
+						window.tinyMCE.editors[i].save();
+					}
 				}
 			}
 		});
@@ -653,6 +655,12 @@ window.CMB2 = window.CMB2 || {};
 		cmb.idNumber = parseInt( prevNum, 10 ) + 1;
 		var $row     = $oldRow.clone();
 		var nodeName = $row.prop('nodeName') || 'div';
+		var getRowId = function( id ) {
+			id = id.split('-');
+			id.splice(id.length - 1, 1);
+			id.push( cmb.idNumber );
+			return id.join('-');
+		};
 
 		// Make sure the next number doesn't exist.
 		while ( $table.find( '.cmb-repeatable-grouping[data-iterator="'+ cmb.idNumber +'"]' ).length > 0 ) {
@@ -662,7 +670,7 @@ window.CMB2 = window.CMB2 || {};
 		cmb.newRowHousekeeping( $row.data( 'title', $this.data( 'grouptitle' ) ) ).cleanRow( $row, prevNum, true );
 		$row.find( '.cmb-add-row-button' ).prop( 'disabled', false );
 
-		var $newRow = $( '<' + nodeName + ' class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'+ cmb.idNumber +'">'+ $row.html() +'</' + nodeName + '>' );
+		var $newRow = $( '<' + nodeName + ' id="'+ getRowId( $oldRow.attr('id') ) +'" class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'+ cmb.idNumber +'">'+ $row.html() +'</' + nodeName + '>' );
 		$oldRow.after( $newRow );
 
 		cmb.afterRowInsert( $newRow );
@@ -674,22 +682,21 @@ window.CMB2 = window.CMB2 || {};
 	cmb.addAjaxRow = function( evt ) {
 		evt.preventDefault();
 
-		var $this         = $( this );
-		var $table        = $id( $this.data('selector') );
-		var $emptyrow     = $table.find('.empty-row');
-		var prevNum       = parseInt( $emptyrow.find('[data-iterator]').data('iterator'), 10 );
-		cmb.idNumber      = parseInt( prevNum, 10 ) + 1;
-		var $row          = $emptyrow.clone();
+		var $this     = $( this );
+		var $table    = $id( $this.data('selector') );
+		var $row      = $table.find('.empty-row');
+		var prevNum   = parseInt( $row.find('[data-iterator]').data('iterator'), 10 );
+		cmb.idNumber  = parseInt( prevNum, 10 ) + 1;
+		var $emptyrow = $row.clone();
 
-		cmb.newRowHousekeeping( $row ).cleanRow( $row, prevNum );
+		cmb.newRowHousekeeping( $emptyrow ).cleanRow( $emptyrow, prevNum );
 
-		$emptyrow.removeClass('empty-row hidden').addClass('cmb-repeat-row');
-		$emptyrow.after( $row );
+		$row.removeClass('empty-row hidden').addClass('cmb-repeat-row');
+		$row.after( $emptyrow );
 
-		cmb.afterRowInsert( $row );
+		cmb.afterRowInsert( $emptyrow );
 
-		cmb.triggerElement( $table, { type: 'cmb2_add_row', group: false }, $row );
-
+		cmb.triggerElement( $table, { type: 'cmb2_add_row', group: false }, $emptyrow, $row );
 	};
 
 	cmb.removeGroupRow = function( evt ) {

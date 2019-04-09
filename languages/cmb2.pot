@@ -4,11 +4,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CMB2 2.5.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/cmb2\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2019-01-04 16:17:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2019-1-4 16:17+300\n"
+=======
+"POT-Creation-Date: 2019-01-18 18:24:08+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-1-18 18:24+300\n"
+>>>>>>> upstream/develop
 "Last-Translator: CMB2 Team hello@cmb2.io\n"
 "Language-Team: CMB2 Team hello@cmb2.io\n"
 "X-Generator: grunt-wp-i18n 0.4.9\n"
@@ -393,6 +401,7 @@ msgstr ""
 msgid "Invalid %1$s method: %2$s"
 msgstr ""
 
+<<<<<<< HEAD
 #: includes/CMB2_Field.php:1352
 msgid "Add Group"
 msgstr ""
@@ -402,11 +411,26 @@ msgid "Remove Group"
 msgstr ""
 
 #: includes/CMB2_Field.php:1385 includes/CMB2_Field.php:1389
+=======
+#: includes/CMB2_Field.php:1353
+msgid "Add Group"
+msgstr ""
+
+#: includes/CMB2_Field.php:1354
+msgid "Remove Group"
+msgstr ""
+
+#: includes/CMB2_Field.php:1386 includes/CMB2_Field.php:1390
+>>>>>>> upstream/develop
 #: tests/test-cmb-field.php:237
 msgid "None"
 msgstr ""
 
+<<<<<<< HEAD
 #: includes/CMB2_Field.php:1500
+=======
+#: includes/CMB2_Field.php:1501
+>>>>>>> upstream/develop
 msgid "Sorry, this field does not have a cmb_id specified."
 msgstr ""
 
