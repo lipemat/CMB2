@@ -12,7 +12,7 @@ Sometimes pull request take a while or never get approved. This fork has any pul
 3. [Support custom elements in group markup.](https://github.com/CMB2/CMB2/pull/1187)
 4. [Remove default taxonomy meta boxes from any meta box context.](https://github.com/CMB2/CMB2/pull/1147)
 5. [Fix `rest_value_cb` field parameter](https://github.com/CMB2/CMB2/pull/1212)
-
+6. [Fix custom groups without ids](https://github.com/CMB2/CMB2/pull/1252)
 ### Installation
 ```bash
 composer require lipemat/cmb2
