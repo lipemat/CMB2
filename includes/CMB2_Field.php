@@ -534,8 +534,9 @@ class CMB2_Field extends CMB2_Base {
 	/**
 	 * Sanitize/store a value to this field
 	 *
+	 * @param array|string $meta_value Desired value to sanitize/store.
+	 *
 	 * @since  2.0.0
-	 * @param  array $meta_value Desired value to sanitize/store.
 	 * @return array|int|bool              Result of save. false on failure
 	 */
 	public function save_field( $meta_value ) {
