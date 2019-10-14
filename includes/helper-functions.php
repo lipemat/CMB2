@@ -164,12 +164,13 @@ function cmb2_update_option( $option_key, $field_id, $value, $single = true ) {
 /**
  * Get a CMB2 field object.
  *
- * @since  1.1.0
- * @param  array  $meta_box    Metabox ID or Metabox config array.
- * @param  array  $field_id    Field ID or all field arguments.
- * @param  int    $object_id   Object ID.
- * @param  string $object_type Type of object being saved. (e.g., post, user, comment, or options-page).
+ * @param array|string $meta_box    Metabox ID or Metabox config array.
+ * @param array|string $field_id    Field ID or all field arguments.
+ * @param int          $object_id   Object ID.
+ * @param string       $object_type Type of object being saved. (e.g., post, user, comment, or options-page).
  *                             Defaults to metabox object type.
+ *
+ * @since  1.1.0
  * @return CMB2_Field|null     CMB2_Field object unless metabox config cannot be found
  */
 function cmb2_get_field( $meta_box, $field_id, $object_id = 0, $object_type = '' ) {
