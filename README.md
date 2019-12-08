@@ -7,12 +7,12 @@ This is a maintained fork of the original [CMB2 WordPress plugin](https://wordpr
 Sometimes pull request take a while or never get approved. This fork has any pull requests I have submitted already merged and ready to use.
 
 ### Enhancements (non exhaustive)
-1. [Drag sorting for repeatable fields.](https://github.com/CMB2/CMB2/pull/1142)
-2. [Drag sorting for groups.](https://github.com/CMB2/CMB2/pull/1145)
-3. [Support custom elements in group markup.](https://github.com/CMB2/CMB2/pull/1187)
-4. [Remove default taxonomy meta boxes from any meta box context.](https://github.com/CMB2/CMB2/pull/1147)
-5. [Fix `rest_value_cb` field parameter](https://github.com/CMB2/CMB2/pull/1212)
-6. [Fix custom groups without ids](https://github.com/CMB2/CMB2/pull/1252)
+1. [Drag sorting for repeatable fields.](https://github.com/CMB2/CMB2/pull/1142) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1142?label=status)
+2. [Drag sorting for groups.](https://github.com/CMB2/CMB2/pull/1145) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1145?label=status)
+3. [Support custom elements in group markup.](https://github.com/CMB2/CMB2/pull/1187) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1187?label=status)
+4. [Remove default taxonomy meta boxes from any meta box context.](https://github.com/CMB2/CMB2/pull/1147) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1147?label=status)
+5. [Fix `rest_value_cb` field parameter](https://github.com/CMB2/CMB2/pull/1212) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1212?label=status)
+6. [Fix custom groups without ids](https://github.com/CMB2/CMB2/pull/1252) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1252?label=status)
 ### Installation
 ```bash
 composer require lipemat/cmb2
