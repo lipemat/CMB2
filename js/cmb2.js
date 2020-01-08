@@ -866,7 +866,7 @@ window.CMB2 = window.CMB2 || {};
 				$element.prop( 'selected', inputVals[ index ].val );
 			}
 			// handle normal input swapping
-			else {
+			else if ( inputVals[ index ] ) {
 				inputVals[ index ].$.val( $element.val() );
 				$element.val( inputVals[ index ].val );
 			}
@@ -1076,10 +1076,12 @@ window.CMB2 = window.CMB2 || {};
 						row.find( 'label' ).attr( 'for', $newRowId );
 						row.find( cmb.repeatEls ).each( function() {
 							var input = $( this );
-							var $newName = input.attr( 'name' ).replace( '[' + prevNum + ']', '[' + rowindex + ']' );
-							var $newFieldId = input.attr( 'id' ).replace( '_' + prevNum + '_', '_' + rowindex + '_' );
-							input.attr( 'name', $newName );
-							input.attr( 'id', $newFieldId );
+							if ( input.attr( 'name' ) ) {
+								input.attr( 'name', input.attr( 'name' ).replace( '[' + prevNum + ']', '[' + rowindex + ']' ) );
+							}
+							if ( input.attr( 'id') ) {
+								input.attr( 'id', input.attr( 'id' ).replace( '_' + prevNum + '_', '_' + rowindex + '_' ) );
+							}
 						} );
 
 						row.find( '.cmb-repeat-group-field' ).each( function() {

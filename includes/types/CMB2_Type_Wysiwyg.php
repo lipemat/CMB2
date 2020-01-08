@@ -43,13 +43,18 @@ class CMB2_Type_Wysiwyg extends CMB2_Type_Textarea {
 
 		return $this->rendered(
 			sprintf( '<div class="cmb2-wysiwyg-wrap">%s', parent::render( array(
+				'id'            => $this->sanitize_id( $this->_id() ),
 				'class'         => 'cmb2_textarea cmb2-wysiwyg-placeholder',
-				'data-groupid'  => $field->group->id(),
+				'data-groupid'  => $this->sanitize_id( $field->group->id() ),
 				'data-iterator' => $field->group->index,
-				'data-fieldid'  => $field->id( true ),
+				'data-fieldid'  => $this->sanitize_id( $field->id( true ) ),
 				'desc'          => '</div>' . $this->_desc( true ),
 			) ) )
 		);
+	}
+
+	protected function sanitize_id( $id ) {
+		return str_replace( '/', '__', $id );
 	}
 
 	protected function get_wp_editor( $args ) {
@@ -68,7 +73,7 @@ class CMB2_Type_Wysiwyg extends CMB2_Type_Textarea {
 		// Initate the editor with special id/value/name so we can retrieve the options in JS.
 		$editor = $this->get_wp_editor( array(
 			'value'   => 'cmb2_v_' . $group_id . $field_id,
-			'id'      => 'cmb2_i_' . $group_id . $field_id,
+			'id'      => 'cmb2_i_' . $this->sanitize_id( $group_id ) . $this->sanitize_id( $field_id ),
 			'options' => $options,
 		) );
 
@@ -76,7 +81,7 @@ class CMB2_Type_Wysiwyg extends CMB2_Type_Textarea {
 		$editor = str_replace( array(
 			'cmb2_n_' . $group_id . $field_id,
 			'cmb2_v_' . $group_id . $field_id,
-			'cmb2_i_' . $group_id . $field_id,
+			'cmb2_i_' . $this->sanitize_id( $group_id ) . $this->sanitize_id( $field_id ),
 			), array(
 			'{{ data.name }}',
 			'{{{ data.value }}}',
@@ -84,9 +89,9 @@ class CMB2_Type_Wysiwyg extends CMB2_Type_Textarea {
 		), $editor );
 
 		// And put the editor instance in a JS template wrapper.
-		echo '<script type="text/template" id="tmpl-cmb2-wysiwyg-' . $group_id . '-' . $field_id . '">';
+		echo '<script type="text/template" id="tmpl-cmb2-wysiwyg-' . $this->sanitize_id($group_id ) . '-' . $this->sanitize_id( $field_id ) . '">';
 		// Need to wrap the template in a wrapper div w/ specific data attributes which will be used when adding/removing rows.
-		echo '<div class="cmb2-wysiwyg-inner-wrap" data-iterator="{{ data.iterator }}" data-groupid="' . $group_id . '" data-id="' . $field_id . '" data-hash="' . $hash . '">' . $editor . '</div>';
+		echo '<div class="cmb2-wysiwyg-inner-wrap" data-iterator="{{ data.iterator }}" data-groupid="' . $this->sanitize_id( $group_id ) . '" data-id="' . $this->sanitize_id( $field_id ) . '" data-hash="' . $hash . '">' . $editor . '</div>';
 		echo '</script>';
 	}
 
