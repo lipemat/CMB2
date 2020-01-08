@@ -1044,7 +1044,8 @@ window.CMB2 = window.CMB2 || {};
 		if ( $repeatables.length ) {
 			$repeatables.sortable( {
 				items: '.cmb-repeat-row',
-				cursor: 'move'
+				cursor: 'move',
+				cancel: 'input,textarea,button,select,option,.CodeMirror'
 			} );
 		}
 
@@ -1053,6 +1054,7 @@ window.CMB2 = window.CMB2 || {};
 			$repeatableGroups.sortable( {
 				items: '.cmb-repeatable-grouping',
 				cursor: 'move',
+				cancel: 'input,textarea,button,select,option,.CodeMirror',
 				beforeStop: function( ev, ui ) {
 					$( ui.item ).parent().find( '.cmb-repeatable-grouping' ).each( function() {
 						var row = $( this );
