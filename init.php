@@ -13,7 +13,7 @@
  * Description:  CMB2 will create metaboxes and forms with custom fields that will blow your mind.
  * Author:       CMB2 team
  * Author URI:   https://cmb2.io
- * Contributors: Mat Lipe (@lipemat / matlipe.com )
+ * Contributors: Mat Lipe (@lipemat / onpointplugins.com )
  *               Justin Sternberg (@jtsternberg / dsgnwrks.pro)
  *               WebDevStudios (@webdevstudios / webdevstudios.com)
  *               Human Made (@humanmadeltd / hmn.md)
@@ -21,7 +21,7 @@
  *               Bill Erickson (@billerickson / billerickson.net)
  *               Andrew Norcross (@norcross / andrewnorcross.com)
  *
- * Version:      2.6.0.7
+ * Version:      2.6.0.8
  *
  * Text Domain:  cmb2
  * Domain Path:  languages
