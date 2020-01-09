@@ -1028,7 +1028,7 @@ window.CMB2 = window.CMB2 || {};
 					if ( wp.data.select('core/edit-post').isSavingMetaBoxes() ) {
 						instance.codemirror.save();
 					}
-				})
+				});
 			}
 		} );
 	};

@@ -1,7 +1,7 @@
 /*!
- * CMB2 - v2.6.0 - 2019-12-08
+ * CMB2 - v2.6.0 - 2020-01-08
  * https://cmb2.io
- * Copyright (c) 2019
+ * Copyright (c) 2020
  * Licensed GPLv2+
  */
 
@@ -248,40 +248,22 @@
   background-color: gainsboro;
 }
 .cmb-repeat-table .cmb-remove-row {
-  top: 7px;
-  left: 7px;
-  position: absolute;
+  top: 10px;
+  left: 10px;
   width: auto;
+  position: absolute;
   margin-right: 0;
   padding: 0 !important;
+  z-index: 99999999;
   display: none;
+}
+.cmb-repeat-table .cmb-remove-row .dashicons {
+  color: #F55E4F !important;
 }
 .cmb-repeat-table .cmb-remove-row > .cmb-remove-row-button {
   font-size: 20px;
-  text-indent: -1000px;
-  overflow: hidden;
   position: relative;
-  height: auto;
   line-height: 1;
-  padding: 0 10px 0;
-}
-.cmb-repeat-table .cmb-remove-row > .cmb-remove-row-button:before {
-  content: "";
-  font-family: "Dashicons";
-  speak: none;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  margin: 0;
-  text-indent: 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  text-align: center;
 }
 .cmb-repeat-table .cmb-repeat-row:hover .cmb-remove-row {
   display: block;
