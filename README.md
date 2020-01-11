@@ -13,7 +13,7 @@ Sometimes pull request take a while or never get approved. This fork has any pul
 4. [Remove default taxonomy meta boxes from any meta box context.](https://github.com/CMB2/CMB2/pull/1147) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1147?label=status)
 5. [Fix `rest_value_cb` field parameter](https://github.com/CMB2/CMB2/pull/1212) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1212?label=status)
 6. [Fix custom groups without ids](https://github.com/CMB2/CMB2/pull/1252) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1252?label=status)
-7. [#1142308303499050] Support `textarea_code` within group, Gutenberg, sortable, and repeatable.
+7. [Support `textarea_code` within group, Gutenberg, sortable, and repeatable.](https://github.com/CMB2/CMB2/pull/1324) ![GitHub issue/pull request detail](https://img.shields.io/github/pulls/detail/state/cmb2/cmb2/1324?label=status)
 ### Installation
 ```bash
 composer require lipemat/cmb2
