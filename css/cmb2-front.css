@@ -1056,7 +1056,7 @@ span.cmb2-metabox-description {
 }
 .cmb2-char-counter-wrap input[type=text] {
   font-size: 12px;
-  width: 25px;
+  min-width: 25px;
 }
 .cmb2-char-counter-wrap.cmb2-max-exceeded input[type=text] {
   border-color: #a00 !important;
