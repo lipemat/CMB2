@@ -106,7 +106,7 @@ function cmb2_get_oembed( $args = array() ) {
 		/* translators: 1: results for. 2: link to codex.wordpress.org/Embeds */
 		esc_html__( 'No oEmbed Results Found for %1$s. View more info at %2$s.', 'cmb2' ),
 		$oembed['fallback'],
-		'<a href="https://codex.wordpress.org/Embeds" target="_blank">codex.wordpress.org/Embeds</a>'
+		'<a href="https://wordpress.org/support/article/embeds/" target="_blank">codex.wordpress.org/Embeds</a>'
 	);
 
 	if ( isset( $args['wp_error'] ) && $args['wp_error'] ) {
@@ -329,11 +329,11 @@ function cmb2_print_metabox_form( $meta_box, $object_id = 0, $args = array() ) {
 
 	// Enqueue JS/CSS.
 	if ( $args['cmb_styles'] ) {
-		CMB2_hookup::enqueue_cmb_css();
+		CMB2_Hookup::enqueue_cmb_css();
 	}
 
 	if ( $args['enqueue_js'] ) {
-		CMB2_hookup::enqueue_cmb_js();
+		CMB2_Hookup::enqueue_cmb_js();
 	}
 
 	$form_format = apply_filters( 'cmb2_get_metabox_form_format', $args['form_format'], $object_id, $cmb );

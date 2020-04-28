@@ -1,5 +1,5 @@
 /*!
- * CMB2 - v2.6.0 - 2020-01-22
+ * CMB2 - v2.7.0 - 2020-04-28
  * https://cmb2.io
  * Copyright (c) 2020
  * Licensed GPLv2+
@@ -14,15 +14,14 @@
 }
 .cmb2-wrap input,
 .cmb2-wrap textarea {
-  font-size: 14px;
   max-width: 100%;
-  padding: 5px;
 }
 .cmb2-wrap input[type=text].cmb2-oembed {
   width: 100%;
 }
 .cmb2-wrap textarea {
   width: 500px;
+  padding: 8px;
 }
 .cmb2-wrap textarea.cmb2-textarea-code {
   font-family: "Courier 10 Pitch", Courier, monospace;
@@ -88,13 +87,13 @@
 .cmb2-wrap .meta_mce textarea {
   width: 100%;
 }
-.cmb2-wrap .wp-color-result,
-.cmb2-wrap .wp-picker-input-wrap {
-  vertical-align: middle;
+.cmb2-wrap .cmb-multicheck-toggle {
+  margin-top: -1em;
 }
-.cmb2-wrap .wp-color-result,
-.cmb2-wrap .wp-picker-container {
-  margin: 0 0 0 10px;
+.cmb2-wrap .wp-picker-clear.button,
+.cmb2-wrap .wp-picker-default.button {
+  margin-right: 6px;
+  padding: 2px 8px;
 }
 .cmb2-wrap .cmb-row {
   margin: 0;
@@ -108,6 +107,15 @@
 .cmb2-wrap .cmb-row.cmb-repeat .cmb2-metabox-description {
   padding-top: 0;
   padding-bottom: 1em;
+}
+
+body.block-editor-page.branch-5-3 .cmb2-wrap .cmb-row .cmb2-radio-list input[type=radio]::before {
+  margin: 0.1875rem;
+}
+@media screen and (max-width: 782px) {
+  body.block-editor-page.branch-5-3 .cmb2-wrap .cmb-row .cmb2-radio-list input[type=radio]::before {
+    margin: 0.4375rem;
+  }
 }
 
 .cmb2-metabox {
@@ -148,7 +156,6 @@
   color: #222222;
   float: right;
   font-weight: 600;
-  line-height: 1.3;
   padding: 20px 0 20px 10px;
   vertical-align: top;
   width: 200px;
@@ -308,18 +315,13 @@
   margin-bottom: 0.5em;
 }
 .cmb-repeatable-group .cmb-shift-rows {
-  font-size: 1em;
   margin-left: 1em;
-  text-decoration: none;
 }
-.cmb-repeatable-group .cmb-shift-rows .dashicons {
-  font-size: 1.5em;
-  height: 1.5em;
-  line-height: 1.2em;
-  width: 1em;
+.cmb-repeatable-group .cmb-shift-rows .dashicons-arrow-up-alt2 {
+  margin-top: 0.15em;
 }
-.cmb-repeatable-group .cmb-shift-rows .dashicons.dashicons-arrow-down-alt2 {
-  line-height: 1.3em;
+.cmb-repeatable-group .cmb-shift-rows .dashicons-arrow-down-alt2 {
+  margin-top: 0.2em;
 }
 .cmb-repeatable-group .cmb2-upload-button {
   float: left;
@@ -1046,6 +1048,30 @@ span.cmb2-metabox-description {
   color: #fff;
 }
 
+/*--------------------------------------------------------------
+ * Character counter
+--------------------------------------------------------------*/
+.cmb2-char-counter-wrap {
+  margin: 0.5em 0 1em;
+}
+.cmb2-char-counter-wrap input[type=text] {
+  font-size: 12px;
+  width: 25px;
+}
+.cmb2-char-counter-wrap.cmb2-max-exceeded input[type=text] {
+  border-color: #a00 !important;
+}
+.cmb2-char-counter-wrap.cmb2-max-exceeded .cmb2-char-max-msg {
+  display: inline-block;
+}
+
+.cmb2-char-max-msg {
+  color: #a00;
+  display: none;
+  font-style: italic;
+  margin-right: 1em;
+}
+
 /**
  * CMB2 Frontend
  */
@@ -1095,6 +1121,10 @@ span.cmb2-metabox-description {
   width: 20px;
   height: 20px;
   margin: 4px 10px 0;
+}
+
+.cmb2-char-max-msg {
+  display: none;
 }
 
 /*# sourceMappingURL=cmb2-front.css.map */
