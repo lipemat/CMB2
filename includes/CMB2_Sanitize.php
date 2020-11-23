@@ -309,10 +309,6 @@ class CMB2_Sanitize {
 			$this->value = $this->field->get_timestamp_from_value( $this->value['date'] . ' ' . $this->value['time'] );
 		}
 
-		if ( $tz_offset = $this->field->field_timezone_offset() ) {
-			$this->value += (int) $tz_offset;
-		}
-
 		return $this->value;
 	}
 

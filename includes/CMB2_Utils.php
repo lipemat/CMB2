@@ -437,17 +437,22 @@ class CMB2_Utils {
 		return $path;
 	}
 
+
 	/**
 	 * Get timestamp from text date
 	 *
+	 * @param string $value      Date value.
+	 * @param string $deprecated No longer used date_format.
+	 *
 	 * @since  2.2.0
-	 * @param  string $value       Date value.
-	 * @param  string $date_format Expected date format.
 	 * @return mixed               Unix timestamp representing the date.
 	 */
-	public static function get_timestamp_from_value( $value, $date_format ) {
-		$date_object = date_create_from_format( $date_format, $value );
-		return $date_object ? $date_object->setTime( 0, 0, 0 )->getTimeStamp() : strtotime( $value );
+	public static function get_timestamp_from_value( $value, $deprecated, $timezone = null ) {
+		if ( empty( $timezone ) ) {
+			return strtotime( $value );
+		}
+
+		return ( new DateTime( $value, new DateTimeZone( $timezone ) ) )->getTimestamp();
 	}
 
 	/**
