@@ -789,6 +789,7 @@ class CMB2_Field extends CMB2_Base {
 		return CMB2_Utils::timezone_offset( $this->field_timezone() );
 	}
 
+
 	/**
 	 * Return timezone string
 	 *
@@ -805,23 +806,30 @@ class CMB2_Field extends CMB2_Base {
 		// Is there another meta key with a timezone stored as its value we should use?
 		elseif ( $this->args( 'timezone_meta_key' ) ) {
 			$value = $this->get_data( $this->args( 'timezone_meta_key' ) );
+		} elseif ( ! empty( get_option( 'timezone_string' ) ) ) {
+			$value = get_option( 'timezone_string' );
 		}
 
 		return $value;
 	}
 
+
 	/**
 	 * Format the timestamp field value based on the field date/time format arg
 	 *
+	 * @param int    $meta_value Timestamp.
+	 * @param string $format     Either date_format or time_format.
+	 *
 	 * @since  2.0.0
-	 * @param  int    $meta_value Timestamp.
-	 * @param  string $format     Either date_format or time_format.
 	 * @return string             Formatted date
 	 */
 	public function format_timestamp( $meta_value, $format = 'date_format' ) {
+		if ( $tz_offset = $this->field_timezone_offset() ) {
+			$meta_value += (int) $tz_offset;
+		}
+
 		return date( stripslashes( $this->args( $format ) ), $meta_value );
 	}
-
 	/**
 	 * Return a formatted timestamp for a field
 	 *
@@ -845,16 +853,17 @@ class CMB2_Field extends CMB2_Base {
 			? array_map( array( $this, 'format_timestamp' ), $meta_value, $format )
 			: $this->format_timestamp( $meta_value, $format );
 	}
-
+	
 	/**
 	 * Get timestamp from text date
 	 *
+	 * @param string $value Date value.
+	 *
 	 * @since  2.2.0
-	 * @param  string $value Date value.
 	 * @return mixed         Unix timestamp representing the date.
 	 */
 	public function get_timestamp_from_value( $value ) {
-		return CMB2_Utils::get_timestamp_from_value( $value, $this->args( 'date_format' ) );
+		return CMB2_Utils::get_timestamp_from_value( $value, $this->args( 'date_format' ), $this->field_timezone() );
 	}
 
 	/**
