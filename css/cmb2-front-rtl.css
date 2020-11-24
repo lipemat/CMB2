@@ -1,5 +1,5 @@
 /*!
- * CMB2 - v2.7.0 - 2020-04-28
+ * CMB2 - v2.7.0 - 2020-11-24
  * https://cmb2.io
  * Copyright (c) 2020
  * Licensed GPLv2+
@@ -524,6 +524,9 @@ span.cmb2-metabox-description {
  * Context Metaboxes
 --------------------------------------------------------------*/
 /* Metabox collapse arrow indicators */
+.js .cmb2-postbox.context-box .handlediv {
+  text-align: center;
+}
 .js .cmb2-postbox.context-box .toggle-indicator:before {
   content: "";
   display: inline-block;
