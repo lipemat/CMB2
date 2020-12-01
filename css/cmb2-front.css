@@ -1,5 +1,5 @@
 /*!
- * CMB2 - v2.7.0 - 2020-11-24
+ * CMB2 - v2.7.0 - 2020-12-01
  * https://cmb2.io
  * Copyright (c) 2020
  * Licensed GPLv2+
@@ -467,14 +467,14 @@ span.cmb2-metabox-description {
   margin: 0;
 }
 .cmb2-postbox .cmb2-wrap > .cmb-field-list > .cmb-row, .cmb-type-group .cmb2-wrap > .cmb-field-list > .cmb-row {
-  padding: 1.8em 0;
+  padding: 1em 0;
 }
 .cmb2-postbox .cmb2-wrap input[type=text].cmb2-oembed, .cmb-type-group .cmb2-wrap input[type=text].cmb2-oembed {
   width: 100%;
 }
 .cmb2-postbox .cmb-row, .cmb-type-group .cmb-row {
-  padding: 0 0 1.8em;
-  margin: 0 0 0.8em;
+  padding: 0 0 1em;
+  margin: 0;
 }
 .cmb2-postbox .cmb-row .cmbhandle, .cmb-type-group .cmb-row .cmbhandle {
   right: -1em;
