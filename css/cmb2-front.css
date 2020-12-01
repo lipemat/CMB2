@@ -475,6 +475,7 @@ span.cmb2-metabox-description {
 .cmb2-postbox .cmb-row, .cmb-type-group .cmb-row {
   padding: 0 0 1em;
   margin: 0;
+  box-shadow: none !important;
 }
 .cmb2-postbox .cmb-row .cmbhandle, .cmb-type-group .cmb-row .cmbhandle {
   right: -1em;
