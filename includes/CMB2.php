@@ -609,7 +609,7 @@ class CMB2 extends CMB2_Base {
 			<div class="cmbhandle" title="' , esc_attr__( 'Click to toggle', 'cmb2' ), '"><br></div>
 			<h3 class="cmb-group-title cmbhandle-title"><span>', $field_group->replace_hash( $field_group->options( 'group_title' ) ), '</span></h3>
 
-			<div class="inside cmb-td cmb-nested cmb-field-list">';
+			<div class="cmb-td cmb-nested cmb-field-list">';
 				// Loop and render repeatable group fields.
 		foreach ( array_values( $field_group->args( 'fields' ) ) as $field_args ) {
 			if ( 'hidden' === $field_args['type'] ) {
