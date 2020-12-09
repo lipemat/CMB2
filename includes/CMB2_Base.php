@@ -257,17 +257,8 @@ abstract class CMB2_Base {
 	 * @return mixed         Results of param/param callback
 	 */
 	public function get_param_callback_result( $param ) {
-
-		// If we've already retrieved this param's value.
-		if ( array_key_exists( $param, $this->callback_results ) ) {
-
-			// Send it back.
-			return $this->callback_results[ $param ];
-		}
-
 		// Check if parameter has registered a callback.
 		if ( $cb = $this->maybe_callback( $param ) ) {
-
 			// Ok, callback is good, let's run it and store the result.
 			ob_start();
 			$returned = $this->do_callback( $cb );
@@ -277,15 +268,11 @@ abstract class CMB2_Base {
 
 			// This checks if the user returned or echoed their callback.
 			// Defaults to using the echoed value.
-			$this->callback_results[ $param ] = $echoed ? $echoed : $returned;
-
-		} else {
-
-			// Otherwise just get whatever is there.
-			$this->callback_results[ $param ] = isset( $this->{$this->properties_name}[ $param ] ) ? $this->{$this->properties_name}[ $param ] : false;
+			return $echoed ? $echoed : $returned;
 		}
 
-		return $this->callback_results[ $param ];
+		// Otherwise just get whatever is there.
+		return isset( $this->{$this->properties_name}[ $param ] ) ? $this->{$this->properties_name}[ $param ] : false;
 	}
 
 	/**
