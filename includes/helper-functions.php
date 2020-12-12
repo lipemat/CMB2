@@ -183,8 +183,12 @@ function cmb2_get_field( $meta_box, $field_id, $object_id = 0, $object_type = ''
 	}
 
 	$cmb->object_type( $object_type ? $object_type : $cmb->mb_object_type() );
+	$field = $cmb->get_field( $field_id );
+	if ( $object_id ) {
+		$field->object_id( $cmb->object_id );
+	}
 
-	return $cmb->get_field( $field_id );
+	return $field;
 }
 
 /**
