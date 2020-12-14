@@ -114,13 +114,19 @@ class CMB2_Option {
 	public function get( $field_id, $default = false ) {
 		$opts = $this->get_options();
 
-		if ( 'all' == $field_id ) {
+		if ( 'all' === $field_id ) {
 			return $opts;
-		} elseif ( array_key_exists( $field_id, $opts ) ) {
-			return false !== $opts[ $field_id ] ? $opts[ $field_id ] : $default;
 		}
 
-		return $default;
+		if ( array_key_exists( $field_id, $opts ) ) {
+			$default = false !== $opts[ $field_id ] ? $opts[ $field_id ] : $default;
+		}
+
+		if ( empty( $opts[ $field_id ] ) ) {
+			return apply_filters( "cmb2_default_option_{$this->key}_{$field_id}", $default, $this );
+		}
+
+		return $opts[ $field_id ];
 	}
 
 	/**

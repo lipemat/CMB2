@@ -75,7 +75,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_270_Develop', false ) ) {
 		 * @var   string
 		 * @since 1.0.0
 		 */
-		const VERSION = '2.7.0';
+		const VERSION = '2.7.0.7';
 
 		/**
 		 * Current version hook priority.
