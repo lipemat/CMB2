@@ -69,7 +69,7 @@ class CMB2_Type_Wysiwyg extends CMB2_Type_Textarea {
 
 	protected function get_wp_editor( $args ) {
 		ob_start();
-		wp_editor( $args['value'], $args['id'], $args['options'] );
+		wp_editor( $args['value'], $this->sanitize_id( $args['id'] ), $args['options'] );
 		return ob_get_clean();
 	}
 
