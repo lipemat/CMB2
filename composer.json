@@ -22,6 +22,9 @@
       "role": "Developer"
     }
   ],
+  "replace": {
+    "cmb2/cmb2" : "*"
+  },
   "suggest": {
     "composer/installers": "~1.0"
   },
