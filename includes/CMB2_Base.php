@@ -400,8 +400,9 @@ abstract class CMB2_Base {
 	 */
 	protected function deprecated_param( $function, $version, $message = null ) {
 
+		$args = func_get_args();
+
 		if ( is_numeric( $message ) ) {
-			$args = func_get_args();
 
 			switch ( $message ) {
 
