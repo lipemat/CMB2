@@ -11,10 +11,10 @@
  * @license   GPL-2.0+
  * @link      https://cmb2.io
  *
- * @property-read read_fields Array of readable field objects.
- * @property-read edit_fields Array of editable field objects.
- * @property-read rest_read   Whether CMB2 object is readable via the rest api.
- * @property-read rest_edit   Whether CMB2 object is editable via the rest api.
+ * @property-read array $read_fields Array of readable field objects.
+ * @property-read array $edit_fields Array of editable field objects.
+ * @property-read bool rest_read   Whether CMB2 object is readable via the rest api.
+ * @property-read bool rest_edit   Whether CMB2 object is editable via the rest api.
  */
 class CMB2_REST extends CMB2_Hookup_Base {
 
@@ -68,7 +68,7 @@ class CMB2_REST extends CMB2_Hookup_Base {
 	/**
 	 * Array of editable field objects.
 	 *
-	 * @var   CMB2_Field[]
+	 * @var   string[]
 	 * @since 2.2.3
 	 */
 	protected $edit_fields = array();
@@ -94,7 +94,7 @@ class CMB2_REST extends CMB2_Hookup_Base {
 	 *
 	 * @param  CMB2 $cmb The CMB2 object to hookup
 	 *
-	 * @return CMB2_Hookup_Base $hookup The hookup object.
+	 * @return CMB2_Hookup_Base|false $hookup The hookup object.
 	 */
 	public static function maybe_init_and_hookup( CMB2 $cmb ) {
 		if ( $cmb->prop( 'show_in_rest' ) && function_exists( 'rest_get_server' ) ) {
@@ -129,7 +129,7 @@ class CMB2_REST extends CMB2_Hookup_Base {
 	 *
 	 * @since  2.2.3
 	 *
-	 * @return void
+	 * @return CMB2_REST
 	 */
 	public function universal_hooks() {
 		// hook up the CMB rest endpoint classes
@@ -330,6 +330,8 @@ class CMB2_REST extends CMB2_Hookup_Base {
 		if ( 'cmb2' === $field_name ) {
 			return self::get_rest_values( $object, $request, $object_type, 'post' );
 		}
+
+		return null;
 	}
 
 	/**
@@ -348,6 +350,8 @@ class CMB2_REST extends CMB2_Hookup_Base {
 		if ( 'cmb2' === $field_name ) {
 			return self::get_rest_values( $object, $request, $object_type, 'user' );
 		}
+
+		return null;
 	}
 
 	/**
@@ -366,6 +370,8 @@ class CMB2_REST extends CMB2_Hookup_Base {
 		if ( 'cmb2' === $field_name ) {
 			return self::get_rest_values( $object, $request, $object_type, 'comment' );
 		}
+
+		return null;
 	}
 
 	/**
@@ -384,6 +390,8 @@ class CMB2_REST extends CMB2_Hookup_Base {
 		if ( 'cmb2' === $field_name ) {
 			return self::get_rest_values( $object, $request, $object_type, 'term' );
 		}
+
+		return null;
 	}
 
 	/**
@@ -400,7 +408,7 @@ class CMB2_REST extends CMB2_Hookup_Base {
 	 */
 	protected static function get_rest_values( $object, $request, $object_type, $main_object_type = 'post' ) {
 		if ( ! isset( $object['id'] ) ) {
-			return;
+			return null;
 		}
 
 		$values = array();
@@ -478,6 +486,9 @@ class CMB2_REST extends CMB2_Hookup_Base {
 		if ( 'cmb2' === $field_name ) {
 			return self::update_rest_values( $values, $object, $request, $object_type, 'post' );
 		}
+
+		return null;
+
 	}
 
 	/**
@@ -497,6 +508,8 @@ class CMB2_REST extends CMB2_Hookup_Base {
 		if ( 'cmb2' === $field_name ) {
 			return self::update_rest_values( $values, $object, $request, $object_type, 'user' );
 		}
+
+		return null;
 	}
 
 	/**
@@ -516,6 +529,8 @@ class CMB2_REST extends CMB2_Hookup_Base {
 		if ( 'cmb2' === $field_name ) {
 			return self::update_rest_values( $values, $object, $request, $object_type, 'comment' );
 		}
+
+		return null;
 	}
 
 	/**
@@ -535,6 +550,8 @@ class CMB2_REST extends CMB2_Hookup_Base {
 		if ( 'cmb2' === $field_name ) {
 			return self::update_rest_values( $values, $object, $request, $object_type, 'term' );
 		}
+
+		return null;
 	}
 
 	/**
@@ -548,17 +565,17 @@ class CMB2_REST extends CMB2_Hookup_Base {
 	 * @param  string          $object_type      The request object type
 	 * @param  string          $main_object_type The cmb main object type
 	 *
-	 * @return bool|int
+	 * @return bool|array
 	 */
 	protected static function update_rest_values( $values, $object, $request, $object_type, $main_object_type = 'post' ) {
 		if ( empty( $values ) || ! is_array( $values ) ) {
-			return;
+			return false;
 		}
 
 		$object_id = self::get_object_id( $object, $main_object_type );
 
 		if ( ! $object_id ) {
-			return;
+			return false;
 		}
 
 		$updated = array();
@@ -633,13 +650,13 @@ class CMB2_REST extends CMB2_Hookup_Base {
 	 */
 	protected function sanitize_field_value( array $values, $field_id ) {
 		if ( ! array_key_exists( $field_id, $values[ $this->cmb->cmb_id ] ) ) {
-			return;
+			return null;
 		}
 
 		$field = $this->cmb->get_field( $field_id );
 
 		if ( 'title' == $field->type() ) {
-			return;
+			return null;
 		}
 
 		$field->object_id( $this->cmb->object_id() );
@@ -665,7 +682,7 @@ class CMB2_REST extends CMB2_Hookup_Base {
 	protected function sanitize_group_value( array $values, CMB2_Field $field ) {
 		$fields = $field->fields();
 		if ( empty( $fields ) ) {
-			return;
+			return null;
 		}
 
 		$this->cmb->data_to_save[ $field->_id( '', false ) ] = $values[ $this->cmb->cmb_id ][ $field->_id( '', false ) ];
@@ -799,7 +816,7 @@ class CMB2_REST extends CMB2_Hookup_Base {
 	 * Retrieve all CMB2_REST instances from the registry.
 	 *
 	 * @since  2.2.3
-	 * @return CMB2[] Array of all registered CMB2_REST instances.
+	 * @return CMB2_REST[] Array of all registered CMB2_REST instances.
 	 */
 	public static function get_all() {
 		return self::$boxes;
