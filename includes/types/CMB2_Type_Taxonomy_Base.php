@@ -43,7 +43,7 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 	 * Gets the term objects for the terms stored via options boxes.
 	 *
 	 * @since  2.2.4
-	 * @return mixed Array of terms on success
+	 * @return array Array of terms on success
 	 */
 	public function options_terms() {
 		if ( empty( $this->field->value ) ) {
@@ -53,7 +53,13 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 		$terms = (array) $this->field->value;
 
 		foreach ( $terms as $index => $term ) {
-			$terms[ $index ] = get_term_by( 'slug', $term, $this->field->args( 'taxonomy' ) );
+			if ( \is_numeric( $term ) ) {
+				$terms[ $index ] = get_term( $term, $this->field->args( 'taxonomy' ) );
+			} else {
+				// Legacy values used to be slugs.
+				$terms[ $index ] = get_term_by( 'slug', $term, $this->field->args( 'taxonomy' ) );
+			}
+
 		}
 
 		return $terms;
@@ -126,7 +132,7 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 
 		return is_wp_error( $saved_terms ) || empty( $saved_terms )
 			? $this->field->get_default()
-			: array_shift( $saved_terms )->slug;
+			: array_shift( $saved_terms )->term_id;
 	}
 
 	/**
@@ -135,7 +141,7 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 	 * @since  2.2.5
 	 *
 	 * @param  array  $all_terms   Array of all terms.
-	 * @param  array|string $saved Array of terms set to the object, or single term slug.
+	 * @param  array|string $saved Array of terms set to the object, or single term id.
 	 *
 	 * @return string              List of terms.
 	 */
@@ -147,7 +153,7 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 	 * Build children hierarchy.
 	 *
 	 * @param  object       $parent_term The parent term object.
-	 * @param  array|string $saved       Array of terms set to the object, or single term slug.
+	 * @param  array|string $saved       Array of terms set to the object, or single term id.
 	 *
 	 * @return string                    List of terms.
 	 */
@@ -174,7 +180,7 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 	 * @since  2.6.1
 	 *
 	 * @param  array        $terms Array of child terms.
-	 * @param  array|string $saved Array of terms set to the object, or single term slug.
+	 * @param  array|string $saved Array of terms set to the object, or single term id.
 	 *
 	 * @return string              Child option output.
 	 */
