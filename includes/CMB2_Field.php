@@ -853,7 +853,7 @@ class CMB2_Field extends CMB2_Base {
 			? array_map( array( $this, 'format_timestamp' ), $meta_value, $format )
 			: $this->format_timestamp( $meta_value, $format );
 	}
-	
+
 	/**
 	 * Get timestamp from text date
 	 *
@@ -863,7 +863,12 @@ class CMB2_Field extends CMB2_Base {
 	 * @return mixed         Unix timestamp representing the date.
 	 */
 	public function get_timestamp_from_value( $value ) {
-		return CMB2_Utils::get_timestamp_from_value( $value, $this->args( 'date_format' ), $this->field_timezone() );
+		$timestamp = CMB2_Utils::get_timestamp_from_value( $value, $this->args( 'date_format' ), $this->field_timezone() );
+		if ( empty( $timestamp ) && CMB2_Utils::is_valid_date( $value ) ) {
+			$timestamp = CMB2_Utils::make_valid_time_stamp( $value );
+		}
+
+		return $timestamp;
 	}
 
 	/**

@@ -297,8 +297,7 @@ class CMB2_Sanitize {
 		// date_create_from_format if there is a slash in the value.
 		$this->value = wp_unslash( $this->value );
 
-		$test = is_array( $this->value ) ? array_filter( $this->value ) : '';
-		if ( empty( $test ) ) {
+		if ( $this->is_empty_value() ) {
 			return '';
 		}
 
@@ -307,7 +306,12 @@ class CMB2_Sanitize {
 			return $repeat_value;
 		}
 
-		if ( isset( $this->value['date'], $this->value['time'] ) ) {
+		// Account for timestamp values passed through REST API.
+		if ( $this->is_valid_date_value() ) {
+
+			$this->value = CMB2_Utils::make_valid_time_stamp( $this->value );
+
+		} elseif ( isset( $this->value['date'], $this->value['time'] ) ) {
 			$this->value = $this->field->get_timestamp_from_value( $this->value['date'] . ' ' . $this->value['time'] );
 		}
 
@@ -325,8 +329,7 @@ class CMB2_Sanitize {
 	public function text_datetime_timestamp_timezone( $repeat = false ) {
 		static $utc_values = array();
 
-		$test = is_array( $this->value ) ? array_filter( $this->value ) : '';
-		if ( empty( $test ) ) {
+		if ( $this->is_empty_value() ) {
 			return '';
 		}
 
@@ -369,11 +372,23 @@ class CMB2_Sanitize {
 		}
 
 		$full_format = $this->field->args['date_format'] . ' ' . $this->field->args['time_format'];
-		$full_date   = $this->value['date'] . ' ' . $this->value['time'];
 
 		try {
+			$datetime = null;
 
-			$datetime = date_create_from_format( $full_format, $full_date );
+			if ( is_array( $this->value ) ) {
+
+				$full_date = $this->value['date'] . ' ' . $this->value['time'];
+				$datetime = date_create_from_format( $full_format, $full_date );
+
+			} elseif ( $this->is_valid_date_value() ) {
+
+				$timestamp = CMB2_Utils::make_valid_time_stamp( $this->value );
+				if ( $timestamp ) {
+					$datetime = new DateTime();
+					$datetime->setTimestamp( $timestamp );
+				}
+			}
 
 			if ( ! is_object( $datetime ) ) {
 				$this->value = $utc_stamp = '';
@@ -608,6 +623,39 @@ class CMB2_Sanitize {
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Check if the current field's value is empty.
+	 *
+	 * @since  2.9.1
+	 *
+	 * @return boolean Wether value is empty.
+	 */
+	public function is_empty_value() {
+		if ( empty( $this->value ) ) {
+			return true;
+		}
+
+		if ( is_array( $this->value ) ) {
+			$test = array_filter( $this->value );
+			if ( empty( $test ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check if the current field's value is a valid date value.
+	 *
+	 * @since  2.9.1
+	 *
+	 * @return boolean Wether value is a valid date value.
+	 */
+	public function is_valid_date_value() {
+		return is_scalar( $this->value ) && CMB2_Utils::is_valid_date( $this->value );
 	}
 
 }

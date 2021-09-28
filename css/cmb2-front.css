@@ -1,11 +1,10 @@
 /*!
- * CMB2 - v2.9.0 - 2021-03-29
+ * CMB2 - v2.9.0 - 2021-09-28
  * https://cmb2.io
  * Copyright (c) 2021
  * Licensed GPLv2+
  */
 
-@charset "UTF-8";
 /*--------------------------------------------------------------
  * Main Wrap
 --------------------------------------------------------------*/
@@ -529,7 +528,7 @@ span.cmb2-metabox-description {
   text-align: center;
 }
 .js .cmb2-postbox.context-box .toggle-indicator:before {
-  content: "";
+  content: "\f142";
   display: inline-block;
   font: normal 20px/1 dashicons;
   speak: none;
@@ -538,7 +537,7 @@ span.cmb2-metabox-description {
   text-decoration: none !important;
 }
 .js .cmb2-postbox.context-box.closed .toggle-indicator:before {
-  content: "";
+  content: "\f140";
 }
 
 .cmb2-postbox.context-box {
@@ -636,7 +635,7 @@ span.cmb2-metabox-description {
   position: relative;
 }
 .cmb2-metabox .cmbhandle:before {
-  content: "";
+  content: "\f142";
   right: 12px;
   font: normal 20px/1 "dashicons";
   speak: none;
@@ -649,7 +648,7 @@ span.cmb2-metabox-description {
   text-decoration: none !important;
 }
 .cmb2-metabox .postbox.closed .cmbhandle:before {
-  content: "";
+  content: "\f140";
 }
 .cmb2-metabox button.dashicons-before.dashicons-no-alt.cmb-remove-group-row {
   -webkit-appearance: none !important;
@@ -788,10 +787,10 @@ span.cmb2-metabox-description {
   height: 34px;
 }
 .cmb2-element.ui-datepicker .ui-datepicker-prev:before, .cmb2-element .ui-datepicker .ui-datepicker-prev:before {
-  content: "";
+  content: "\f341";
 }
 .cmb2-element.ui-datepicker .ui-datepicker-next:before, .cmb2-element .ui-datepicker .ui-datepicker-next:before {
-  content: "";
+  content: "\f345";
 }
 .cmb2-element.ui-datepicker .ui-datepicker-prev-hover:before,
 .cmb2-element.ui-datepicker .ui-datepicker-next-hover:before, .cmb2-element .ui-datepicker .ui-datepicker-prev-hover:before,
