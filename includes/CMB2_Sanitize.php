@@ -85,7 +85,6 @@ class CMB2_Sanitize {
 			case 'oembed':
 				$sanitized_value = $this->textarea();
 				break;
-			case 'taxonomy_select':
 			case 'taxonomy_select_hierarchical':
 			case 'taxonomy_radio':
 			case 'taxonomy_radio_inline':
@@ -93,6 +92,13 @@ class CMB2_Sanitize {
 			case 'taxonomy_multicheck':
 			case 'taxonomy_multicheck_hierarchical':
 			case 'taxonomy_multicheck_inline':
+				$sanitized_value = $this->taxonomy();
+				break;
+			case 'taxonomy_select':
+				if ( is_numeric( $this->value ) ) {
+					// Term ids are perceived as term slug when strings.
+					$this->value = (int) $this->value;
+				}
 				$sanitized_value = $this->taxonomy();
 				break;
 			case 'multicheck':
