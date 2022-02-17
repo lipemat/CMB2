@@ -29,6 +29,7 @@ class CMB2_Type_File_List extends CMB2_Type_File_Base {
 			'size'  => 45,
 			'desc'  => '',
 			'value' => '',
+			'data-label'       => $this->_text( 'add_upload_media_label', esc_attr__( 'Use these files', 'cmb2' ) ),
 			'data-previewsize' => sprintf( '[%d,%d]', $img_size_data['width'], $img_size_data['height'] ),
 			'data-sizename'    => $img_size_data['name'],
 			'data-queryargs'   => ! empty( $query_args ) ? json_encode( $query_args ) : '',

@@ -49,7 +49,7 @@ class CMB2_Type_File extends CMB2_Type_File_Base {
 
 		$output = '';
 
-		$output .= parent::render( array(
+		$output .= parent::render( [
 			'type'             => $a['type'],
 			'class'            => $a['class'],
 			'value'            => $a['value'],
@@ -57,11 +57,12 @@ class CMB2_Type_File extends CMB2_Type_File_Base {
 			'name'             => $a['name'],
 			'size'             => $a['size'],
 			'desc'             => '',
+			'data-label'       => $this->_text( 'add_upload_media_label', esc_attr__( 'Use this file', 'cmb2' ) ),
 			'data-previewsize' => sprintf( '[%d,%d]', $img_size_data['width'], $img_size_data['height'] ),
 			'data-sizename'    => $img_size_data['name'],
 			'data-queryargs'   => ! empty( $a['query_args'] ) ? json_encode( $a['query_args'] ) : '',
 			'js_dependencies'  => $a['js_dependencies'],
-		) );
+		] );
 
 		// Now remove the data-iterator attribute if it exists.
 		// (Possible if being used within a custom field)

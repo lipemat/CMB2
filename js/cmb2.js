@@ -283,7 +283,7 @@ window.CMB2 = window.CMB2 || {};
 			title: cmb.metabox().find('label[for="' + id + '"]').text(),
 			library : media.fieldData.queryargs || {},
 			button: {
-				text: l10n.strings[ isList ? 'upload_files' : 'upload_file' ]
+				text: cmb.metabox().find( '[id="' + id + '"]' ).data( 'label' )
 			},
 			multiple: isList ? 'add' : false
 		} );
