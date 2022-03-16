@@ -19,6 +19,36 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 	 */
 	protected $parent = null;
 
+
+	/**
+	 * Is this option checked because it matches the value.
+	 *
+	 * @param string|int|array $value - Term id or legacy slug.
+	 * @param WP_Term|stdClass $term - Representation of a term object.
+	 *
+	 * @return bool
+	 */
+	public function is_checked( $value, $term ) {
+		if ( is_array( $value ) ) {
+			foreach( $value as $_value ) {
+				if ( $this->is_checked( $_value, $term ) ) {
+					return true;
+				}
+			}
+		}
+
+
+		// Backward compatible.
+		if ( ! is_numeric( $value) && $term->slug === $value ) {
+			return true;
+		}
+
+		if ( (int) $value === $term->term_id ) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Checks if we can get a post object, and if so, uses `get_the_terms` which utilizes caching.
 	 *

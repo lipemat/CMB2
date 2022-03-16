@@ -43,15 +43,13 @@ class CMB2_Type_Taxonomy_Multicheck extends CMB2_Type_Taxonomy_Base {
 
 	protected function list_term_input( $term, $saved_terms ) {
 		$args = array(
-			'value' => $term->slug,
+			'value' => $term->term_id,
 			'label' => $term->name,
 			'type'  => 'checkbox',
 			'name'  => $this->_name() . '[]',
 		);
 
-		if ( is_array( $saved_terms ) && in_array( $term->slug, $saved_terms ) ) {
-			$args['checked'] = 'checked';
-		}
+		$args['checked'] = $this->is_checked( $saved_terms, $term );
 
 		return $this->list_input( $args, ++$this->counter );
 	}

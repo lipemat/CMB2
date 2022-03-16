@@ -129,6 +129,24 @@ class CMB2_Sanitize {
 		return is_array( $this->value ) ? array_map( 'sanitize_text_field', $this->value ) : sanitize_text_field( $this->value );
 	}
 
+
+	/**
+	 * Sanitize a taxonomy value for a numeric id vs slug.
+	 *
+	 * @param $value
+	 *
+	 * @return array<int|string>|int|string
+	 */
+	protected function sanitize_taxonomy_value( $value ) {
+		if ( is_array( $value ) ) {
+			return array_map( [$this, 'sanitize_taxonomy_value'], $value );
+		}
+		if ( is_numeric( $value ) ) {
+			return (int) $value;
+		}
+		return $value;
+	}
+
 	/**
 	 * Sets the object terms to the object (if not options-page) and optionally returns the sanitized term values.
 	 *
@@ -145,7 +163,7 @@ class CMB2_Sanitize {
 			if ( in_array( $this->field->object_type, array( 'options-page', 'term' ), true ) ) {
 				$return_values = true;
 			} else {
-				wp_set_object_terms( $this->field->object_id, $this->value, $this->field->args( 'taxonomy' ) );
+				wp_set_object_terms( $this->field->object_id, $this->sanitize_taxonomy_value($this->value ), $this->field->args( 'taxonomy' ) );
 				$return_values = false;
 			}
 

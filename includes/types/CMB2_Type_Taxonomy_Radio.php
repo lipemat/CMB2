@@ -43,7 +43,7 @@ class CMB2_Type_Taxonomy_Radio extends CMB2_Type_Taxonomy_Base {
 			 *
 			 * @param string $option_none_value Default (option-none) taxonomy-radio value.
 			 */
-			$option_none_value = apply_filters( 'cmb2_taxonomy_radio_default_value', '' );
+			$option_none_value = apply_filters( 'cmb2_taxonomy_radio_default_value', $this->field->get_default() );
 
 			/**
 			 * Default (option-none) taxonomy-radio value.
@@ -56,10 +56,11 @@ class CMB2_Type_Taxonomy_Radio extends CMB2_Type_Taxonomy_Base {
 			 */
 			$option_none_value = apply_filters( "cmb2_taxonomy_radio_{$field_id}_default_value", $option_none_value );
 
-			$options .= $this->list_term_input( (object) array(
-				'slug' => $option_none_value,
-				'name' => $option_none,
-			), $saved_term );
+			$options .= $this->list_term_input( (object) [
+				'term_id' => $option_none_value,
+				'slug'    => $option_none_value,
+				'name'    => $option_none,
+			], $saved_term );
 		}
 
 		$options .= $this->loop_terms( $all_terms, $saved_term );
@@ -77,14 +78,12 @@ class CMB2_Type_Taxonomy_Radio extends CMB2_Type_Taxonomy_Base {
 	}
 
 	protected function list_term_input( $term, $saved_term ) {
-		$args = array(
-			'value' => $term->slug,
+		$args = [
+			'value' => $term->term_id,
 			'label' => $term->name,
-		);
+		];
 
-		if ( $saved_term == $term->slug ) {
-			$args['checked'] = 'checked';
-		}
+		$args['checked'] = $this->is_checked( $saved_term, $term );
 
 		return $this->list_input( $args, ++$this->counter );
 	}
