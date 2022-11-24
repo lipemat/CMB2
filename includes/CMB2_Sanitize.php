@@ -162,6 +162,8 @@ class CMB2_Sanitize {
 
 			if ( in_array( $this->field->object_type, array( 'options-page', 'term' ), true ) ) {
 				$return_values = true;
+			} elseif ( 'user' === $this->field->object_type && ! empty( $this->field->args( 'store_user_terms_in_meta' ) ) ) {
+				$return_values = true;
 			} else {
 				wp_set_object_terms( $this->field->object_id, $this->sanitize_taxonomy_value($this->value ), $this->field->args( 'taxonomy' ) );
 				$return_values = false;
