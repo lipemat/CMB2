@@ -30,8 +30,8 @@ require __DIR__ . '/vendor/autoload.php'
 **Homepage:**          [https://cmb2.io](https://cmb2.io)  
 **Tags:**              metaboxes, forms, fields, options, settings  
 **Requires at least:** 3.8.0  
-**Tested up to:**      5.6.2  
-**Stable tag:**        2.9.0  
+**Tested up to:**      5.9  
+**Stable tag:**        2.10.1  
 **License:**           GPLv2 or later  
 **License URI:**       [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)  
 

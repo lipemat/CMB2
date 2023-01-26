@@ -1,7 +1,7 @@
 /*!
- * CMB2 - v2.9.0 - 2022-02-17
+ * CMB2 - v2.10.1 - 2023-01-26
  * https://cmb2.io
- * Copyright (c) 2022
+ * Copyright (c) 2023
  * Licensed GPLv2+
  */
 
@@ -442,8 +442,8 @@ span.cmb2-metabox-description {
 
 @media (max-width: 450px) {
   .cmb-th,
-.cmb-td,
-.cmb-th + .cmb-td {
+  .cmb-td,
+  .cmb-th + .cmb-td {
     display: block;
     float: none;
     width: 100%;
@@ -509,8 +509,8 @@ span.cmb2-metabox-description {
 }
 @media (max-width: 450px) {
   .cmb2-postbox .cmb-row:not(:last-of-type),
-.cmb2-postbox .cmb-repeatable-group:not(:last-of-type), .cmb-type-group .cmb-row:not(:last-of-type),
-.cmb-type-group .cmb-repeatable-group:not(:last-of-type) {
+  .cmb2-postbox .cmb-repeatable-group:not(:last-of-type), .cmb-type-group .cmb-row:not(:last-of-type),
+  .cmb-type-group .cmb-repeatable-group:not(:last-of-type) {
     border-bottom: 0;
   }
 }

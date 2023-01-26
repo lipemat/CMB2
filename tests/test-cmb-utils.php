@@ -70,8 +70,8 @@ class Test_CMB2_Utils extends Test_CMB2 {
 	/**
 	 * Set up the test fixture
 	 */
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->post_id = $this->factory->post->create();
 		$this->img_name = 'test-image.jpg';
@@ -83,8 +83,8 @@ class Test_CMB2_Utils extends Test_CMB2 {
 		$this->attachment_id = $this->_make_attachment( $upload, $this->post_id );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 	}
 
 	public function test_image_id_from_url() {
@@ -315,6 +315,31 @@ class Test_CMB2_Utils extends Test_CMB2 {
 				"Test index: $index"
 			);
 		}
+
+	}
+
+	public function test_make_valid_time_stamp() {
+		date_default_timezone_set( 'America/New_York' );
+
+		$this->assertSame(
+			1658548800,
+			CMB2_Utils::make_valid_time_stamp( '07/23/2022' )
+		);
+
+		$this->assertSame(
+			1658548800,
+			CMB2_Utils::make_valid_time_stamp( '1658548800' )
+		);
+
+		$this->assertSame(
+			1658548800,
+			CMB2_Utils::make_valid_time_stamp( 1658548800 )
+		);
+
+		$this->assertSame(
+			22,
+			CMB2_Utils::make_valid_time_stamp( 22 )
+		);
 
 	}
 
