@@ -514,6 +514,9 @@ window.CMB2 = window.CMB2 || {};
 		$elements.filter( ':selected' ).removeAttr( 'selected' );
 		$elements.find( ':selected' ).removeAttr( 'selected', false );
 
+		// Remove initilized code mirrors.
+		$row.find( '.CodeMirror-wrap' ).remove();
+
 		cmb.resetGroupTitles( $row, cmb.idNumber, $row.data( 'title' ) );
 
 		$elements.each( function() {
@@ -617,6 +620,9 @@ window.CMB2 = window.CMB2 || {};
 	cmb.afterRowInsert = function( $row ) {
 		// Init pickers from new row
 		cmb.initPickers( $row.find('input[type="text"].cmb2-timepicker'), $row.find('input[type="text"].cmb2-datepicker'), $row.find('input[type="text"].cmb2-colorpicker') );
+
+		// Init code editor for new row
+		cmb.initCodeEditors( $row.find('.cmb2-textarea-code:not(.disable-codemirror)') );
 	};
 
 	cmb.updateNameAttr = function ( $el, prevIterator, newIterator ) {
@@ -949,6 +955,8 @@ window.CMB2 = window.CMB2 || {};
 		}
 	};
 
+	cmb.codeMirrorInstances = {};
+
 	cmb.initCodeEditors = function( $selector ) {
 		cmb.trigger( 'cmb_init_code_editors', $selector );
 
@@ -957,10 +965,20 @@ window.CMB2 = window.CMB2 || {};
 		}
 
 		$selector.each( function() {
-			wp.codeEditor.initialize(
+			var instance = wp.codeEditor.initialize(
 				this.id,
 				cmb.codeEditorArgs( $( this ).data( 'codeeditor' ) )
 			);
+			cmb.codeMirrorInstances[ this.id ] = instance;
+
+			// Update the textarea before Gutenberg saves the meta box.
+			if ( wp && wp.data && wp.data.subscribe ) {
+				wp.data.subscribe( function () {
+					if ( wp.data.select( 'core/edit-post' ).isSavingMetaBoxes() ) {
+						instance.codemirror.save();
+					}
+				} );
+			}
 		} );
 	};
 
