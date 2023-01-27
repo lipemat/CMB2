@@ -246,7 +246,7 @@ window.CMB2.wysiwyg = window.CMB2.wysiwyg || {};
 			data.iterator = $row.data( 'iterator' );
 			data.fieldid  = data.id;
 			data.id       = data.groupid + '_' + data.iterator + '_' + data.fieldid;
-			data.name     = data.name + '[' + data.iterator + '][' + data.fieldid + ']';
+			data.name     = data.name + '[' + data.iterator + '][' + data.fieldName + ']';
 			data.value    = 'cmb2_add_row' !== evt.type && $toReplace.find( '.wp-editor-area' ).length ? $toReplace.find( '.wp-editor-area' ).val() : defVal;
 
 			// The destroys might not have happened yet.  Don't init until they have.
