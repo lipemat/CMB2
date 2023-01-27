@@ -21,13 +21,7 @@
  *               Bill Erickson (@billerickson / billerickson.net)
  *               Andrew Norcross (@norcross / andrewnorcross.com)
  *
-<<<<<<< HEAD
- * Version:      2.9.0.7
-||||||| f03e4fa
- * Version:      2.9.0
-=======
  * Version:      2.10.1
->>>>>>> upstream/master
  *
  * Text Domain:  cmb2
  * Domain Path:  languages
