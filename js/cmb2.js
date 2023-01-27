@@ -537,7 +537,8 @@ window.CMB2 = window.CMB2 || {};
 			attrs = { 'for' : oldFor.replace( '_'+ prevNum, '_'+ cmb.idNumber ) };
 		} else {
 			var oldName = $newInput.attr( 'name' );
-			var newName;
+			var oldClass = $newInput.attr( 'class' );
+			var newName, newClass;
 			oldID = $newInput.attr( 'id' );
 
 			// Handle adding groups vs rows.
@@ -546,6 +547,7 @@ window.CMB2 = window.CMB2 || {};
 				newName = oldName ? oldName.replace( '['+ prevNum +'][', '['+ cmb.idNumber +'][' ) : '';
 				// Expect another underscore after group's index trailing underscore.
 				newID   = oldID ? oldID.replace( '_' + prevNum + '_', '_' + cmb.idNumber + '_' ) : '';
+				newClass = oldClass ? oldClass.replace( '-' + prevNum + '-', '-' + cmb.idNumber + '-' ) : '';
 			}
 			else {
 				// Row indexes are at the very end of the string.
@@ -555,7 +557,9 @@ window.CMB2 = window.CMB2 || {};
 
 			attrs = {
 				id: newID,
-				name: newName
+				name: newName,
+				for: newID,
+				class: newClass,
 			};
 
 		}
@@ -660,9 +664,11 @@ window.CMB2 = window.CMB2 || {};
 		cmb.idNumber = parseInt( prevNum, 10 ) + 1;
 		var $row     = $oldRow.clone();
 		var nodeName = $row.prop('nodeName') || 'div';
-		var getRowId = function( id ) {
-			id = id.split('-');
-			id.splice(id.length - 1, 1);
+		var getRowId = function () {
+			var id = $oldRow.attr( 'id' ).split( '-' );
+			if ( ! isNaN( id[ id.length - 1 ] ) ) {
+				id.splice( id.length - 1, 1 );
+			}
 			id.push( cmb.idNumber );
 			return id.join('-');
 		};
@@ -675,7 +681,10 @@ window.CMB2 = window.CMB2 || {};
 		cmb.newRowHousekeeping( $row.data( 'title', $this.data( 'grouptitle' ) ) ).cleanRow( $row, prevNum, true );
 		$row.find( '.cmb-add-row-button' ).prop( 'disabled', false );
 
-		var $newRow = $( '<' + nodeName + ' id="'+ getRowId( $oldRow.attr('id') ) +'" class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'+ cmb.idNumber +'">'+ $row.html() +'</' + nodeName + '>' );
+		var $newRow = $( '<' + nodeName + ' class="' + $oldRow.attr( 'class' ) + '" data-iterator="' + cmb.idNumber + '">' + $row.html() + '</' + nodeName + '>' );
+		if ( $oldRow.attr( 'id' ) !== undefined ) {
+			$newRow.attr( 'id', getRowId() );
+		}
 		$oldRow.after( $newRow );
 
 		cmb.afterRowInsert( $newRow );
@@ -988,6 +997,54 @@ window.CMB2 = window.CMB2 || {};
 				// See https://api.jqueryui.com/sortable/#option-cancel
 				cancel: 'input,textarea,button,select,option,.CodeMirror'
 			});
+		}
+
+		var $repeatableGroups = cmb.metabox().find( '.cmb-repeatable-group.sortable' );
+		if ( $repeatableGroups.length ) {
+			$repeatableGroups.sortable( {
+				items: '.cmb-repeatable-grouping',
+				cursor: 'move',
+				beforeStop: function ( ev, ui ) {
+					$( ui.item ).parent().find( '.cmb-repeatable-grouping' ).each( function () {
+						var row = $( this );
+						cmb.triggerElement( ui.item, 'cmb2_shift_rows_start', row, row, row );
+					} );
+				},
+				stop: function ( ev, ui ) {
+					var $from = $( ui.item ).parents( '[data-groupid]' );
+					var rows = $( ui.item ).parent().find( '.cmb-repeatable-grouping' );
+					rows.each( function ( rowindex ) {
+						var row = $( this );
+						var prevNum = row.data( 'iterator' );
+						var $newRowId = row.attr( 'id' ).replace( '-' + prevNum, '-' + rowindex );
+						row.attr( 'id', $newRowId );
+						row.find( 'label' ).attr( 'for', $newRowId );
+						row.find( cmb.repeatEls ).each( function () {
+							var input = $( this );
+							if ( input.attr( 'name' ) ) {
+								var newName = input.attr( 'name' ).replace( '[' + prevNum + ']', '[' + rowindex + ']' );
+								input.attr( 'name', newName );
+							}
+							var newFieldId = input.attr( 'id' ).replace( '_' + prevNum + '_', '_' + rowindex + '_' );
+							input.attr( 'id', newFieldId );
+						} );
+
+						row.find( '.cmb-repeat-group-field' ).each( function () {
+							var row = $( this );
+							var $newClass = row.attr( 'class' ).replace( '-' + prevNum + '-', '-' + rowindex + '-' );
+							row.attr( 'class', $newClass );
+						} );
+					} );
+					cmb.resetTitlesAndIterator( {
+						group: true,
+						target: $from,
+					} );
+					rows.each( function () {
+						var row = $( this );
+						cmb.triggerElement( ui.item, 'cmb2_shift_rows_complete', row, row, row );
+					} );
+				}
+			} );
 		}
 	};
 
