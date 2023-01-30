@@ -468,18 +468,17 @@ class CMB2_Utils {
 	/**
 	 * Get timestamp from text date
 	 *
-	 * @param string $value      Date value.
-	 * @param string $deprecated No longer used date_format.
+	 * @param string $value       Date value.
+	 * @param string $date_format Expected date format.
 	 *
 	 * @since  2.2.0
-	 * @return mixed               Unix timestamp representing the date.
+	 * @return false|int               Unix timestamp representing the date.
 	 */
-	public static function get_timestamp_from_value( $value, $deprecated, $timezone = null ) {
+	public static function get_timestamp_from_value( $value, $date_format, $timezone = null ) {
 		if ( empty( $timezone ) ) {
 			return strtotime( $value );
 		}
-
-		return ( new DateTime( $value, new DateTimeZone( $timezone ) ) )->getTimestamp();
+		return date_create_from_format( $date_format, $value, new DateTimeZone( $timezone ) )->getTimestamp();
 	}
 
 	/**
