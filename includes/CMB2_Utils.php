@@ -473,18 +473,18 @@ class CMB2_Utils {
 	/**
 	 * Get timestamp from text date
 	 *
-	 * @param string $value      Date value.
-	 * @param string $deprecated No longer used date_format.
+	 * @param string $value Date value.
 	 *
 	 * @since  2.2.0
-	 * @return mixed               Unix timestamp representing the date.
+	 * @return int        Unix timestamp representing the date.
 	 */
-	public static function get_timestamp_from_value( $value, $deprecated, $timezone = null ) {
-		if ( empty( $timezone ) ) {
-			return strtotime( $value );
-		}
+	public static function get_timestamp_from_value( $value, $date_format, $timezone = null ) {
+		$date_object = date_create_from_format( $date_format, $value, new DateTimeZone( $timezone ) );
 
-		return ( new DateTime( $value, new DateTimeZone( $timezone ) ) )->getTimestamp();
+		if ( empty( $date_object ) ) {
+			return \strtotime( $value );
+		}
+		return $date_object->getTimestamp();
 	}
 
 	/**
