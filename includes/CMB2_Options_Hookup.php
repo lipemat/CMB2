@@ -10,6 +10,10 @@
  * @author    CMB2 team
  * @license   GPL-2.0+
  * @link      https://cmb2.io
+ *
+ * @property-read string $option_key
+ * @property-read string $object_type
+ * @property-read CMB2   $cmb
  */
 class CMB2_Options_Hookup extends CMB2_Hookup {
 

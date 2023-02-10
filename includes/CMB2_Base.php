@@ -8,12 +8,12 @@
  * @license   GPL-2.0+
  * @link      https://cmb2.io
  *
- * @property-read $args        The objects array of properties/arguments.
- * @property-read $meta_box    The objects array of properties/arguments.
- * @property-read $properties  The objects array of properties/arguments.
- * @property-read $cmb_id      Current CMB2 instance ID
- * @property-read $object_id   Object ID
- * @property-read $object_type Type of object being handled. (e.g., post, user, comment, or term)
+ * @property-read array      $args        The objects array of properties/arguments.
+ * @property-read array      $meta_box    The objects array of properties/arguments.
+ * @property-read array      $properties  The objects array of properties/arguments.
+ * @property-read string     $cmb_id      Current CMB2 instance ID
+ * @property-read string|int $object_id   Object ID
+ * @property-read string     $object_type Type of object being handled. (e.g., post, user, comment, or term)
  */
 abstract class CMB2_Base {
 
