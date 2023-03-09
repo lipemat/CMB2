@@ -61,13 +61,18 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 		}
 
 		switch ( $this->field->object_type ) {
-			case 'user' && ! empty( $this->field->args( 'store_user_terms_in_meta' ) ):
 			case 'options-page':
 			case 'term':
 				return $this->options_terms();
 			case 'post':
 				// WP caches internally so it's better to use
 				return get_the_terms( $this->field->object_id, $this->field->args( 'taxonomy' ) );
+			case 'user':
+				if ( ! empty( $this->field->args( 'store_user_terms_in_meta' ) ) ) {
+					return $this->options_terms();
+				} else {
+					return $this->non_post_object_terms();
+				}
 			default:
 				return $this->non_post_object_terms();
 		}
