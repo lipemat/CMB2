@@ -133,7 +133,7 @@ class CMB2_Sanitize {
 	/**
 	 * Sanitize a taxonomy value for a numeric id vs slug.
 	 *
-	 * @param $value
+	 * @param array<int|string>|int|string|null $value
 	 *
 	 * @return array<int|string>|int|string
 	 */
@@ -144,7 +144,7 @@ class CMB2_Sanitize {
 		if ( is_numeric( $value ) ) {
 			return (int) $value;
 		}
-		return $value;
+		return (string) $value;
 	}
 
 	/**
