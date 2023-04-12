@@ -1,8 +1,4 @@
 <?php
-if ( ! class_exists( 'WP_REST_Controller' ) ) {
-	// Shim the WP_REST_Controller class if wp-api plugin not installed, & not in core.
-	require_once cmb2_dir( 'includes/shim/WP_REST_Controller.php' );
-}
 
 /**
  * Creates CMB2 objects/fields endpoint for WordPres REST API.
