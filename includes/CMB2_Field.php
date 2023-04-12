@@ -824,12 +824,13 @@ class CMB2_Field extends CMB2_Base {
 	 * @return string             Formatted date
 	 */
 	public function format_timestamp( $meta_value, $format = 'date_format' ) {
-		if ( $tz_offset = $this->field_timezone_offset() ) {
-			$meta_value += (int) $tz_offset;
-		}
-
-		return date( stripslashes( $this->args( $format ) ), $meta_value );
+		$dt = new DateTime();
+		$dt->setTimestamp( $meta_value );
+		$dt->setTimezone( new DateTimeZone( $this->field_timezone() ) );
+		return $dt->format( stripslashes( $this->args( $format ) ) );
 	}
+
+
 	/**
 	 * Return a formatted timestamp for a field
 	 *
