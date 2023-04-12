@@ -338,7 +338,7 @@ class CMB2_Sanitize {
 			$this->value = CMB2_Utils::make_valid_time_stamp( $this->value );
 
 		} elseif ( isset( $this->value['date'], $this->value['time'] ) ) {
-			$this->value = $this->field->get_timestamp_from_value( $this->value['date'] . ' ' . $this->value['time'] );
+			$this->value = $this->field->get_timestamp_from_datetime_value( $this->value['date'] . ' ' . $this->value['time'] );
 		}
 
 		return $this->value;
