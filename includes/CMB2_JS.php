@@ -32,9 +32,10 @@ class CMB2_JS {
 	 * @var   array
 	 * @since 2.0.7
 	 */
-	protected static $dependencies = array(
-		'jquery' => 'jquery',
-	);
+	protected static $dependencies = [
+		'jquery'             => 'jquery',
+		'jquery-ui-sortable' => 'jquery-ui-sortable',
+	];
 
 	/**
 	 * Array of CMB2 fields model data for JS.
@@ -42,7 +43,8 @@ class CMB2_JS {
 	 * @var   array
 	 * @since 2.4.0
 	 */
-	protected static $fields = array();
+	protected static $fields = [];
+
 
 	/**
 	 * Add a dependency to the array of CMB2 JS dependencies
