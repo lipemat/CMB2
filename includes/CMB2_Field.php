@@ -872,6 +872,26 @@ class CMB2_Field extends CMB2_Base {
 		return $timestamp;
 	}
 
+
+	/**
+	 * Get timestamp from text datetime
+	 *
+	 * @param string $value Date value.
+	 *
+	 * @since  3.10.1.7
+	 * @return mixed         Unix timestamp representing the date.
+	 */
+	public function get_timestamp_from_datetime_value( $value ) {
+		$timestamp = CMB2_Utils::get_timestamp_from_value( $value, $this->args( 'date_format' ) . ' ' . $this->args( 'time_format' ), $this->field_timezone() );
+
+		if ( empty( $timestamp ) && CMB2_Utils::is_valid_date( $value ) ) {
+			$timestamp = CMB2_Utils::make_valid_time_stamp( $value );
+		}
+
+		return $timestamp;
+	}
+
+
 	/**
 	 * Get field render callback and Render the field row
 	 *
