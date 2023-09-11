@@ -109,7 +109,7 @@ class CMB2_Option {
 	 * @since  1.0.1
 	 * @param string $field_id Option array field key.
 	 * @param mixed  $default  Fallback value for the option.
-	 * @return array             Requested field or default
+	 * @return mixed            Requested field or default
 	 */
 	public function get( $field_id, $default = false ) {
 		$opts = $this->get_options();
