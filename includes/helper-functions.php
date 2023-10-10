@@ -227,7 +227,7 @@ function new_cmb2_box( array $meta_box_config ) {
  * @param  string     $object_type Type of object being saved.
  *                                 (e.g., post, user, term, comment, or options-page).
  *                                 Defaults to metabox object type.
- * @return CMB2 object
+ * @return CMB2|false object
  */
 function cmb2_get_metabox( $meta_box, $object_id = 0, $object_type = '' ) {
 
