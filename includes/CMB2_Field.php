@@ -1446,8 +1446,9 @@ class CMB2_Field extends CMB2_Base {
 			? $with_supporting[ $args['type'] ]
 			: false;
 
+
 		// Repeatable fields require jQuery sortable library.
-		if ( ! empty( $args['repeatable'] ) ) {
+		if ( ! empty( $this->group ) || ! empty( $args['repeatable'] ) ) {
 			CMB2_JS::add_dependencies( 'jquery-ui-sortable' );
 		}
 

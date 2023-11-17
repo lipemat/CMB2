@@ -33,8 +33,7 @@ class CMB2_JS {
 	 * @since 2.0.7
 	 */
 	protected static $dependencies = [
-		'jquery'             => 'jquery',
-		'jquery-ui-sortable' => 'jquery-ui-sortable',
+		'jquery' => 'jquery',
 	];
 
 	/**

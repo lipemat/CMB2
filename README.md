@@ -26,14 +26,14 @@ require __DIR__ . '/vendor/autoload.php'
 
 ### Original Readme
 
-**Contributors:**  [Mat Lipe](https://github.com/lipemat),    [jtsternberg](https://github.com/jtsternberg), [webdevstudios](https://github.com/webdevstudios), [zao](https://github.com/zao-web), [humanmade](https://github.com/humanmade)  
-**Homepage:**          [https://cmb2.io](https://cmb2.io)  
-**Tags:**              metaboxes, forms, fields, options, settings  
-**Requires at least:** 3.8.0  
-**Tested up to:**      5.9  
-**Stable tag:**        2.10.1  
-**License:**           GPLv2 or later  
-**License URI:**       [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)  
+**Contributors:**  [Mat Lipe](https://github.com/lipemat),    [jtsternberg](https://github.com/jtsternberg), [webdevstudios](https://github.com/webdevstudios), [zao](https://github.com/zao-web), [humanmade](https://github.com/humanmade)
+**Homepage:**          [https://cmb2.io](https://cmb2.io)
+**Tags:**              metaboxes, forms, fields, options, settings
+**Requires at least:** 3.8.0
+**Tested up to:**      6.1
+**Stable tag:**        2.10.1
+**License:**           GPLv2 or later
+**License URI:**       [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)
 
 [![Wordpress plugin](https://img.shields.io/wordpress/plugin/v/cmb2.svg)](https://wordpress.org/plugins/cmb2/)
 [![Wordpress](https://img.shields.io/wordpress/plugin/dt/cmb2.svg)](https://wordpress.org/plugins/cmb2/)
@@ -80,10 +80,10 @@ If you are looking to provide language translation files, Please do so via [Word
 * [CMB2 Field Type: CMB Attached Posts Field](https://github.com/coreymcollins/cmb-attached-posts) from [coreymcollins](https://github.com/coreymcollins): `custom_attached_posts`, for attaching posts to a page.
 * [CMB2 Field Type: Post Search Ajax](https://github.com/alexis-magina/cmb2-field-post-search-ajax) by [alexis-magina](https://github.com/alexis-magina): `post_search_ajax` Attach posts to each other. Same approach as [CMB2 Attached Posts Field](https://github.com/coreymcollins/cmb-attached-posts) but with Ajax request, multiple/single option, and different UI.
 * [CMB2 Field Type: CMB2 Post Search field](https://github.com/CMB2/CMB2-Post-Search-field): `post_search_text` adds a post-search dialog for searching/attaching other post IDs.
-* [CMB2 Field Type: CMB2 User Search field](https://github.com/Mte90/CMB2-User-Search-field) from [Mte90](https://github.com/Mte90): `user_search_text` adds a user-search dialog for searching/attaching other User IDs.
+* [CMB2 Field Type: Ajax Search](https://github.com/rubengc/cmb2-field-ajax-search) from [rubengc](https://github.com/rubengc): 3 different fields with the same UI in AJAX to search (with query parameters) to users, post type and taxonomy terms.
 * [CMB2 Field Type: Google Maps](https://github.com/mustardBees/cmb_field_map) from [mustardBees](https://github.com/mustardBees): Custom field type for Google Maps.
 	> The `pw_map` field stores the latitude/longitude values which you can then use to display a map in your theme.
-	
+
 * [CMB2 Field Type: Leaflet Maps](https://github.com/villeristi/CMB2-field-Leaflet-Geocoder) from [villeristi](https://github.com/villeristi): Custom field type for [Leaflet](https://leafletjs.com/) Maps.
 * [CMB2 Field Type: Select2](https://github.com/mustardBees/cmb-field-select2) from [mustardBees](https://github.com/mustardBees): Custom field types which use the [Select2](https://select2.org/) script:
 

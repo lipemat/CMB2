@@ -21,7 +21,7 @@
  *               Bill Erickson (@billerickson / billerickson.net)
  *               Andrew Norcross (@norcross / andrewnorcross.com)
  *
- * Version:      2.10.1.7
+ * Version:      2.10.1.8
  *
  * Text Domain:  cmb2
  * Domain Path:  languages
