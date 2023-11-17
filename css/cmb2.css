@@ -1,5 +1,5 @@
 /*!
- * CMB2 - v2.10.1 - 2023-01-26
+ * CMB2 - v2.10.1 - 2023-11-17
  * https://cmb2.io
  * Copyright (c) 2023
  * Licensed GPLv2+
@@ -270,6 +270,26 @@ body.block-editor-page.branch-5-3 .cmb2-wrap .cmb-row .cmb2-radio-list input[typ
   font-size: 20px;
   position: relative;
   line-height: 1;
+  padding: 0 10px 0;
+}
+.cmb-repeat-table .cmb-remove-row > .cmb-remove-row-button:before {
+  content: "\f335";
+  font-family: "Dashicons";
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  text-indent: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 1.3;
 }
 .cmb-repeat-table .cmb-repeat-row:hover .cmb-remove-row {
   display: block;
@@ -518,6 +538,15 @@ span.cmb2-metabox-description {
 .cmb2-postbox .cmb-remove-field-row, .cmb-type-group .cmb-repeat-group-field,
 .cmb-type-group .cmb-remove-field-row {
   padding-top: 1.8em;
+}
+.cmb2-postbox .button-secondary .dashicons, .cmb-type-group .button-secondary .dashicons {
+  line-height: 1.3;
+}
+.cmb2-postbox .button-secondary.move-up .dashicons, .cmb2-postbox .button-secondary.move-down .dashicons, .cmb-type-group .button-secondary.move-up .dashicons, .cmb-type-group .button-secondary.move-down .dashicons {
+  line-height: 1.1;
+}
+.cmb2-postbox .button-secondary.cmb-add-group-row .dashicons, .cmb-type-group .button-secondary.cmb-add-group-row .dashicons {
+  line-height: 1.5;
 }
 
 /*--------------------------------------------------------------
