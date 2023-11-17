@@ -19,6 +19,7 @@ window.CMB2 = window.CMB2 || {};
 	var $id = function( selector ) {
 		return $( document.getElementById( selector ) );
 	};
+
 	cmb.$id = $id;
 	var defaults = {
 		idNumber        : false,
@@ -561,7 +562,6 @@ window.CMB2 = window.CMB2 || {};
 			attrs = {
 				id: newID,
 				name: newName,
-				for: newID,
 				class: newClass,
 			};
 
