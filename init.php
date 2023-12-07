@@ -84,7 +84,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 		 * @var   int
 		 * @since 2.0.0
 		 */
-		const PRIORITY = 9957;
+		const PRIORITY = 89;
 
 		/**
 		 * Single instance of the CMB2_Bootstrap_2101 object
