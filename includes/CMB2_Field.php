@@ -632,39 +632,8 @@ class CMB2_Field extends CMB2_Base {
 	 * @param  string $type Field type to check.
 	 * @return bool         True if type cannot be repeatable
 	 */
-	public function repeatable_exception( $type ) {
-		// These types cannot be repeatable.
-		$internal_fields = array(
-			// Use file_list instead.
-			'file'                             => 1,
-			'radio'                            => 1,
-			'title'                            => 1,
-			'wysiwyg'                          => 1,
-			'checkbox'                         => 1,
-			'radio_inline'                     => 1,
-			'taxonomy_radio'                   => 1,
-			'taxonomy_radio_inline'            => 1,
-			'taxonomy_radio_hierarchical'      => 1,
-			'taxonomy_select'                  => 1,
-			'taxonomy_select_hierarchical'     => 1,
-			'taxonomy_multicheck'              => 1,
-			'taxonomy_multicheck_inline'       => 1,
-			'taxonomy_multicheck_hierarchical' => 1,
-		);
-
-		/**
-		 * Filter field types that are non-repeatable.
-		 *
-		 * Note that this does *not* allow overriding the default non-repeatable types.
-		 *
-		 * @since 2.1.1
-		 *
-		 * @param array $fields Array of fields designated as non-repeatable. Note that the field names are *keys*,
-		 *                      and not values. The value can be anything, because it is meaningless. Example:
-		 *                      array( 'my_custom_field' => 1 )
-		 */
-		$all_fields = array_merge( apply_filters( 'cmb2_non_repeatable_fields', array() ), $internal_fields );
-		return isset( $all_fields[ $type ] );
+	public function repeatable_exception( string $type ) {
+		return CMB2_Utils::does_not_support_repeating( $type );
 	}
 
 	/**
