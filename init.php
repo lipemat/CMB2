@@ -2,10 +2,7 @@
 /**
  * The initation loader for CMB2, and the main plugin file.
  *
- * @category     WordPress_Plugin
- * @package      CMB2
  * @author       CMB2 team
- * @license      GPL-2.0+
  * @link         https://cmb2.io
  *
  * Plugin Name:  CMB2
@@ -21,7 +18,7 @@
  *               Bill Erickson (@billerickson / billerickson.net)
  *               Andrew Norcross (@norcross / andrewnorcross.com)
  *
- * Version:      2.10.1.9
+ * Version:      2.10.1.10
  *
  * Text Domain:  cmb2
  * Domain Path:  languages
@@ -44,6 +41,9 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * **********************************************************************
+ *@license      GPL-2.0+
+ * @package      CMB2
+ * @category     WordPress_Plugin
  */
 
 /**
@@ -75,7 +75,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 		 * @var   string
 		 * @since 1.0.0
 		 */
-		const VERSION = '2.10.1.9';
+		const VERSION = '2.10.1.10';
 
 		/**
 		 * Current version hook priority.
