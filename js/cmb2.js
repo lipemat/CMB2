@@ -872,6 +872,7 @@ window.CMB2 = window.CMB2 || {};
 
 	cmb.initDateTimePickers = function( $selector, method, defaultKey ) {
 		if ( $selector.length ) {
+			$selector.removeClass( 'hasDatepicker' );
 			$selector[ method ]( 'destroy' ).each( function() {
 				var $this     = $( this );
 				var fieldOpts = $this.data( method ) || {};
