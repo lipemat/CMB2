@@ -159,23 +159,25 @@ class CMB2_Option {
 		return true;
 	}
 
+
 	/**
 	 * Saves the option array
 	 * Needs to be run after finished using remove/update_option
 	 *
-	 * @uses apply_filters() Calls 'cmb2_override_option_save_{$this->key}' hook
+	 * @since  1.0.1
+	 * @uses   apply_filters() Calls 'cmb2_override_option_save_{$this->key}' hook
 	 * to allow overwriting the option value to be stored.
 	 *
-	 * @since  1.0.1
-	 * @param  array $options Optional options to override.
+	 * @param array $options Optional options to override.
+	 *
 	 * @return bool           Success/Failure
 	 */
-	public function set( $options = array() ) {
-		if ( ! empty( $options ) || empty( $options ) && empty( $this->key ) ) {
+	public function set( $options = [] ) {
+		if ( ! empty( $options ) || empty( $this->key ) ) {
 			$this->options = $options;
 		}
 
-		$this->options = wp_unslash( $this->options ); // get rid of those evil magic quotes.
+		$this->options = wp_unslash( \apply_filters( "cmb2_options_set_{$this->key}", $this->options, $this ) ); // get rid of those evil magic quotes.
 
 		if ( empty( $this->key ) ) {
 			return false;
@@ -200,26 +202,29 @@ class CMB2_Option {
 		 */
 		$autoload = apply_filters( "cmb2_should_autoload_{$this->key}", true, $this );
 
-		return update_option(
+		if ( update_option(
 			$this->key,
 			$this->options,
-			! $autoload || 'no' === $autoload ? false : true
-		);
+			! ( ! $autoload || 'no' === $autoload )
+		) ) {
+			$this->options = wp_unslash( get_option( $this->key ) );
+		}
 	}
+
 
 	/**
 	 * Retrieve option value based on name of option.
 	 *
-	 * @uses apply_filters() Calls 'cmb2_override_option_get_{$this->key}' hook to allow
+	 * @since  1.0.1
+	 * @uses   apply_filters() Calls 'cmb2_override_option_get_{$this->key}' hook to allow
 	 * overwriting the option value to be retrieved.
 	 *
-	 * @since  1.0.1
-	 * @param  mixed $default Optional. Default value to return if the option does not exist.
+	 * @param mixed $default Optional. Default value to return if the option does not exist.
+	 *
 	 * @return mixed          Value set for the option.
 	 */
 	public function get_options( $default = null ) {
 		if ( empty( $this->options ) && ! empty( $this->key ) ) {
-
 			$test_get = apply_filters( "cmb2_override_option_get_{$this->key}", 'cmb2_no_override_option_get', $default, $this );
 
 			if ( 'cmb2_no_override_option_get' !== $test_get ) {
@@ -230,7 +235,7 @@ class CMB2_Option {
 			}
 		}
 
-		$this->options = (array) $this->options;
+		$this->options = (array) \apply_filters( "cmb2_options_get_{$this->key}", $this->options, $this );
 
 		return $this->options;
 	}
