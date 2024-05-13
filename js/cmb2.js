@@ -67,8 +67,11 @@ window.CMB2 = window.CMB2 || {};
 
 		// Make File List drag/drop sortable:
 		cmb.makeListSortable();
-		// Make Repeatable fields drag/drop sortable:
-		cmb.makeRepeatableSortable();
+		// Only available for non-mobile devices
+		if ( ! l10n.isMobile ) {
+			// Make Repeatable fields drag/drop sortable:
+			cmb.makeRepeatableSortable();
+		}
 
 		$metabox
 			.on( 'change', '.cmb2_upload_file', function() {
