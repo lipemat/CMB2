@@ -36,7 +36,7 @@ abstract class CMB2_Base {
 	/**
 	 * Object ID
 	 *
-	 * @var   mixed
+	 * @var   string|int
 	 * @since 2.2.3
 	 */
 	protected $object_id = 0;
@@ -101,8 +101,8 @@ abstract class CMB2_Base {
 	 * Returns the object ID
 	 *
 	 * @since  2.2.3
-	 * @param  integer $object_id Object ID.
-	 * @return integer Object ID
+	 * @param  string|int $object_id Object ID.
+	 * @return string|int Object ID
 	 */
 	public function object_id( $object_id = 0 ) {
 		if ( $object_id ) {
