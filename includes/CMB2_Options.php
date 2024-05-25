@@ -172,7 +172,7 @@ class CMB2_Option {
 	 *
 	 * @return bool           Success/Failure
 	 */
-	public function set( $options = [] ) {
+	public function set( $options = [] ): bool {
 		if ( ! empty( $options ) || empty( $this->key ) ) {
 			$this->options = $options;
 		}
@@ -186,8 +186,8 @@ class CMB2_Option {
 		$test_save = apply_filters( "cmb2_override_option_save_{$this->key}", 'cmb2_no_override_option_save', $this->options, $this );
 
 		if ( 'cmb2_no_override_option_save' !== $test_save ) {
-			// If override, do not proceed to update the option, just return result.
-			return $test_save;
+			// If overridden, do not proceed to update the option, just return result.
+			return true;
 		}
 
 		/**
@@ -209,6 +209,7 @@ class CMB2_Option {
 		) ) {
 			$this->options = wp_unslash( get_option( $this->key ) );
 		}
+		return true;
 	}
 
 

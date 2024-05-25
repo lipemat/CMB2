@@ -320,7 +320,9 @@ class CMB2_REST_Controller_Fields extends CMB2_REST_Controller_Boxes {
 
 		// If options page, save the $activity options
 		if ( 'options-page' == $this->request['object_type'] ) {
-			$this->field->args[ "value_{$activity}" ] = cmb2_options( $this->request['object_id'] )->set();
+			$options = cmb2_options( $this->request['object_id'] );
+			$options->set();
+			$this->field->args[ "value_{$activity}" ] = $options->get_options();
 		}
 
 		return $this->prepare_read_field( $this->field );

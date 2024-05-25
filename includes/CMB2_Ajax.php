@@ -316,7 +316,7 @@ class CMB2_Ajax {
 
 		// Update the option and remove stale cache data.
 		if ( $modified ) {
-			$updated = cmb2_options( $option_key )->set( $options );
+			cmb2_options( $option_key )->set( $options );
 		}
 	}
 
