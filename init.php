@@ -18,7 +18,7 @@
  *               Bill Erickson (@billerickson / billerickson.net)
  *               Andrew Norcross (@norcross / andrewnorcross.com)
  *
- * Version:      2.10.1.14
+ * Version:      2.10.1.15
  *
  * Text Domain:  cmb2
  * Domain Path:  languages
@@ -41,7 +41,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * **********************************************************************
- *@license      GPL-2.0+
+ * @license      GPL-2.0+
  * @package      CMB2
  * @category     WordPress_Plugin
  */
@@ -55,34 +55,33 @@
  */
 
 if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
-
 	/**
 	 * Handles checking for and loading the newest version of CMB2
 	 *
-	 * @since  2.0.0
-	 *
-	 * @category  WordPress_Plugin
-	 * @package   CMB2
 	 * @author    CMB2 team
-	 * @license   GPL-2.0+
+	 * @since     2.0.0
+	 *
 	 * @link      https://cmb2.io
+	 * @license   GPL-2.0+
+	 * @package   CMB2
+	 * @category  WordPress_Plugin
 	 */
 	class CMB2_Bootstrap_2101 {
 
 		/**
 		 * Current version number
 		 *
-		 * @var   string
 		 * @since 1.0.0
+		 * @var   string
 		 */
-		const VERSION = '2.10.1.14';
+		const VERSION = '2.10.1.15';
 
 		/**
 		 * Current version hook priority.
 		 * Will decrement with each release
 		 *
-		 * @var   int
 		 * @since 2.0.0
+		 * @var   int
 		 */
 		const PRIORITY = 89;
 
@@ -92,6 +91,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 		 * @var CMB2_Bootstrap_2101
 		 */
 		public static $single_instance = null;
+
 
 		/**
 		 * Creates/returns the single instance CMB2_Bootstrap_2101 object
@@ -105,6 +105,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 			}
 			return self::$single_instance;
 		}
+
 
 		/**
 		 * Starts the version checking process.
@@ -129,8 +130,9 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 				return;
 			}
 
-			add_action( 'init', array( $this, 'include_cmb' ), self::PRIORITY );
+			add_action( 'init', [ $this, 'include_cmb' ], self::PRIORITY );
 		}
+
 
 		/**
 		 * A final check if CMB2 exists before kicking off our CMB2 loading.
@@ -166,13 +168,13 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 			cmb2_bootstrap();
 		}
 
+
 		/**
 		 * Registers CMB2 text domain path
 		 *
 		 * @since  2.0.0
 		 */
 		public function l10ni18n() {
-
 			$loaded = load_plugin_textdomain( 'cmb2', false, '/languages/' );
 
 			if ( ! $loaded ) {
@@ -188,12 +190,10 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 				$mofile = dirname( __FILE__ ) . '/languages/cmb2-' . $locale . '.mo';
 				load_textdomain( 'cmb2', $mofile );
 			}
-
 		}
 
 	}
 
 	// Make it so...
 	CMB2_Bootstrap_2101::initiate();
-
 }// End if().
