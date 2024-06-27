@@ -431,7 +431,7 @@ class CMB2_Types {
 		$desc = $this->field->args( 'description' );
 
 		if ( ! $desc ) {
-			return;
+			return '';
 		}
 
 		$tag = $paragraph ? 'p' : 'span';
