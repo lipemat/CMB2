@@ -18,7 +18,7 @@
  *               Bill Erickson (@billerickson / billerickson.net)
  *               Andrew Norcross (@norcross / andrewnorcross.com)
  *
- * Version:      2.10.1.16
+ * Version:      2.10.1.17
  *
  * Text Domain:  cmb2
  * Domain Path:  languages
@@ -74,7 +74,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 		 * @since 1.0.0
 		 * @var   string
 		 */
-		const VERSION = '2.10.1.16';
+		const VERSION = '2.10.1.17';
 
 		/**
 		 * Current version hook priority.
