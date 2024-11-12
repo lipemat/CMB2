@@ -491,6 +491,6 @@
 }( jQuery ) );
 
 // Auto Call plugin is class is color-picker
-jQuery( document ).ready( function( $ ) {
+jQuery( function ( $ ) {
 	$( '.color-picker' ).wpColorPicker();
 } );
