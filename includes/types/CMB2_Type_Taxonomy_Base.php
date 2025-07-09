@@ -60,6 +60,10 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 			return call_user_func( $this->field->args( 'get_object_terms' ), $this );
 		}
 
+		if ( true === $this->field->args( 'store_terms_in_meta' ) ) {
+			return $this->options_terms();
+		}
+
 		switch ( $this->field->object_type ) {
 			case 'options-page':
 			case 'term':
