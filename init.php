@@ -131,6 +131,8 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 			}
 
 			add_action( 'init', [ $this, 'include_cmb' ], self::PRIORITY );
+
+			$this->reset_between_tests();
 		}
 
 
@@ -192,6 +194,27 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 			}
 		}
 
+
+		/**
+		 * Reset option sets and box caches between tests.
+		 *
+		 * @requires wp-unit 4.5.1+
+		 *
+		 * @throws TestHelperException
+		 * @return void
+		 */
+		private function reset_between_tests(): void {
+			// Reset the classes between tests.
+			if ( ! \defined( 'WP_UNIT_DIR' ) || ! \function_exists( 'set_private_property' ) ) {
+				return;
+			}
+			add_action( 'wp-unit/reset-container', function() {
+				set_private_property( \CMB2_Options::class, 'option_sets', [] );
+				foreach ( get_private_property( \CMB2_Boxes::class, 'cmb2_instances' ) as $cmb ) {
+					set_private_property( $cmb, 'fields', [] );
+				}
+			} );
+		}
 	}
 
 	// Make it so...
