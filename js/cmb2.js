@@ -720,10 +720,12 @@ window.CMB2 = window.CMB2 || {};
 		var $newRow = $( '<' + nodeName + ' id="'+ getRowId( $oldRow.attr('id'), cmb.idNumber ) +'" class="postbox cmb-row cmb-repeatable-grouping" data-iterator="'+ cmb.idNumber +'">'+ $row.html() +'</' + nodeName + '>' );
 		$oldRow.after( $newRow );
 
-		cmb.afterRowInsert( $newRow );
-		cmb.makeRepeatableSortable( $newRow );
+		window.requestAnimationFrame( function () {
+			cmb.afterRowInsert( $newRow );
+			cmb.makeRepeatableSortable( $newRow );
 
-		cmb.triggerElement( $table, { type: 'cmb2_add_row', group: true }, $newRow );
+			cmb.triggerElement( $table, {type: 'cmb2_add_row', group: true}, $newRow );
+		} );
 	};
 
 	cmb.addAjaxRow = function( evt ) {
@@ -741,9 +743,14 @@ window.CMB2 = window.CMB2 || {};
 		$row.removeClass('empty-row hidden').addClass('cmb-repeat-row');
 		$row.after( $emptyrow );
 
-		cmb.afterRowInsert( $emptyrow );
+		window.requestAnimationFrame( function () {
+			cmb.afterRowInsert( $emptyrow );
 
-		cmb.triggerElement( $table, { type: 'cmb2_add_row', group: false }, $emptyrow, $row );
+			cmb.triggerElement( $table, {
+				type: 'cmb2_add_row',
+				group: false
+			}, $emptyrow, $row );
+		} );
 	};
 
 	cmb.removeGroupRow = function( evt ) {
