@@ -86,18 +86,18 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 		const PRIORITY = 89;
 
 		/**
-		 * Single instance of the CMB2_Bootstrap_2101 object
+		 * Single instance of the CMB2_Bootstrap_2110 object
 		 *
-		 * @var CMB2_Bootstrap_2101
+		 * @var CMB2_Bootstrap_2110
 		 */
 		public static $single_instance = null;
 
 
 		/**
-		 * Creates/returns the single instance CMB2_Bootstrap_2101 object
+		 * Creates/returns the single instance CMB2_Bootstrap_2110 object
 		 *
 		 * @since  2.0.0
-		 * @return CMB2_Bootstrap_2101 Single instance object
+		 * @return CMB2_Bootstrap_2110 Single instance object
 		 */
 		public static function initiate() {
 			if ( null === self::$single_instance ) {

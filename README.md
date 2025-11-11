@@ -30,8 +30,8 @@ require __DIR__ . '/vendor/autoload.php'
 **Homepage:**          [https://cmb2.io](https://cmb2.io)
 **Tags:**              metaboxes, forms, fields, options, settings
 **Requires at least:** 3.8.0
-**Tested up to:**      6.1
-**Stable tag:**        2.10.1
+**Tested up to:**      6.4
+**Stable tag:**        2.11.0
 **License:**           GPLv2 or later
 **License URI:**       [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)
 
@@ -118,6 +118,7 @@ If you are looking to provide language translation files, Please do so via [Word
 * [CMB2 Field Type: Widget Selector](https://github.com/scottsawyer/cmb2-field-widget-selector) by [scottsawyer](https://github.com/scottsawyer): Need a field that lets you ( or your editor ) select / display an existing widget instance? Then this is the plugin for you.
 
 #### Other Helpful Resources
+* [CMB2 WooCommerce HPOS Orders](https://github.com/CMB2/cmb2-woocommerce-hpos-orders): Adds the ability to add custom fields to the new WooCommerce HPOS orders page.
 * [CMB2 Admin Extension](https://github.com/twoelevenjay/CMB2-Admin-Extension): Adds a UI to create CMB2 meta boxes from the WordPress admin. Also on [wordpress.org](https://wordpress.org/plugins/cmb2-admin-extension/).
 * [WordPress Shortcode Button](https://github.com/jtsternberg/Shortcode_Button): Uses CMB2 fields to generate fields for shortcode input modals.
 * [WDS-Simple-Page-Builder](https://github.com/WebDevStudios/WDS-Simple-Page-Builder): Uses existing template parts in the currently-active theme to build a customized page with rearrangeable elements. Built with CMB2.

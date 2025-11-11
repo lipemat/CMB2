@@ -34,7 +34,7 @@
     "source": "https://github.com/lipemat/CMB2"
   },
   "require": {
-    "php": ">=7.1.3"
+    "php": ">=7.4.0"
   },
   "suggest": {
     "composer/installers": "~1.0"
@@ -43,8 +43,8 @@
     "apigen/apigen": "4.1.2",
     "nette/utils": "2.5.3",
     "phpunit/phpunit": "^6.5",
-    "awesomemotive/am-cli-tools": ">=1.3.1",
-    "yoast/phpunit-polyfills": "^1.0"
+    "awesomemotive/am-cli-tools": ">=1.3.7",
+    "yoast/phpunit-polyfills": "^1.1"
   },
   "repositories": [
     {
@@ -60,6 +60,11 @@
       "vendor/bin/apigen generate --config apigen/apigen.neon",
       "php apigen/hook-docs.php"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   },
   "replace": {
     "cmb2/cmb2": "*"
