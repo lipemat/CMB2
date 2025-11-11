@@ -38,15 +38,11 @@ abstract class CMB2_Type_Taxonomy_Base extends CMB2_Type_Multi_Base {
 		}
 
 
-		// Backward compatible.
-		if ( ! is_numeric( $value) && $term->slug === $value ) {
-			return true;
+		// Backward compatible for slug values.
+		if ( ! is_numeric( $value ) ) {
+			return $term->slug === $value;
 		}
-
-		if ( (int) $value === $term->term_id ) {
-			return true;
-		}
-		return false;
+		return (int) $value === $term->term_id;
 	}
 
 	/**
