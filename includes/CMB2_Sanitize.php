@@ -216,7 +216,7 @@ class CMB2_Sanitize {
 		$default   = $this->field->get_default();
 
 		// for repeatable.
-		if ( is_array( $this->value ) ) {
+		if ( \is_array( $this->value ) ) {
 			foreach ( $this->value as $key => $val ) {
 				$this->value[ $key ] = self::sanitize_and_secure_url( $val, $protocols, $default );
 			}
@@ -229,16 +229,16 @@ class CMB2_Sanitize {
 
 	public function colorpicker() {
 		// for repeatable.
-		if ( is_array( $this->value ) ) {
+		if ( \is_array( $this->value ) ) {
 			$check = $this->value;
 			$this->value = array();
 			foreach ( $check as $key => $val ) {
-				if ( $val && '#' != $val ) {
+				if ( $val && '#' !== $val ) {
 					$this->value[ $key ] = esc_attr( $val );
 				}
 			}
 		} else {
-			$this->value = ! $this->value || '#' == $this->value ? '' : esc_attr( $this->value );
+			$this->value = ! $this->value || '#' === $this->value ? '' : esc_attr( $this->value );
 		}
 		return $this->value;
 	}
@@ -253,11 +253,11 @@ class CMB2_Sanitize {
 		// for repeatable.
 		if ( is_array( $this->value ) ) {
 			foreach ( $this->value as $key => $val ) {
-				$val = trim( $val );
-				$this->value[ $key ] = is_email( $val ) ? $val : '';
+				$val = \trim( (string) $val );
+				$this->value[ $key ] = is_email(  $val ) ? $val : '';
 			}
 		} else {
-			$this->value = trim( $this->value );
+			$this->value = \trim( (string) $this->value );
 			$this->value = is_email( $this->value ) ? $this->value : '';
 		}
 
@@ -455,7 +455,7 @@ class CMB2_Sanitize {
 	 * @return string       Sanitized data
 	 */
 	public function textarea() {
-		return is_array( $this->value ) ? array_map( 'wp_kses_post', $this->value ) : wp_kses_post( $this->value );
+		return \is_array( $this->value ) ? \array_map( 'wp_kses_post', $this->value ) : wp_kses_post( (string) $this->value );
 	}
 
 	/**
@@ -472,7 +472,7 @@ class CMB2_Sanitize {
 			return $repeat_value;
 		}
 
-		return htmlspecialchars_decode( stripslashes( $this->value ), ENT_COMPAT );
+		return htmlspecialchars_decode( \stripslashes( (string) $this->value ), ENT_COMPAT );
 	}
 
 	/**
