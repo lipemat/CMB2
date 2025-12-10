@@ -130,6 +130,9 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 				return;
 			}
 
+			// Now kick off the class autoloader.
+			spl_autoload_register( [ $this, 'autoload_classes' ] );
+
 			add_action( 'init', [ $this, 'include_cmb' ], self::PRIORITY );
 
 			$this->reset_between_tests();
@@ -162,12 +165,28 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 			require_once CMB2_DIR . 'includes/CMB2.php';
 			require_once CMB2_DIR . 'includes/helper-functions.php';
 
-			// Now kick off the class autoloader.
-			spl_autoload_register( 'cmb2_autoload_classes' );
-
 			// Kick the whole thing off.
 			require_once( cmb2_dir( 'bootstrap.php' ) );
 			cmb2_bootstrap();
+		}
+
+
+		function autoload_classes( $class_name ) {
+			if ( 0 !== strpos( $class_name, 'CMB2' ) ) {
+				return;
+			}
+
+			$path = 'includes';
+
+			if ( 'CMB2_Type' === $class_name || 0 === strpos( $class_name, 'CMB2_Type_' ) ) {
+				$path .= '/types';
+			}
+
+			if ( 'CMB2_REST' === $class_name || 0 === strpos( $class_name, 'CMB2_REST_' ) ) {
+				$path .= '/rest-api';
+			}
+
+			include_once( trailingslashit( __DIR__ ) . "$path/{$class_name}.php" );
 		}
 
 
