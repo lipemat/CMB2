@@ -54,6 +54,8 @@
  * ***********************************************************************
  */
 
+use Lipe\WP_Unit\Utils\PrivateAccess;
+
 if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 	/**
 	 * Handles checking for and loading the newest version of CMB2
@@ -224,13 +226,13 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 		 */
 		private function reset_between_tests(): void {
 			// Reset the classes between tests.
-			if ( ! \defined( 'WP_UNIT_DIR' ) || ! \function_exists( 'set_private_property' ) ) {
+			if ( ! \defined( 'WP_UNIT_DIR' ) || ! \class_exists( PrivateAccess::class ) ) {
 				return;
 			}
 			add_action( 'wp-unit/reset-container', function() {
-				set_private_property( \CMB2_Options::class, 'option_sets', [] );
-				foreach ( get_private_property( \CMB2_Boxes::class, 'cmb2_instances' ) as $cmb ) {
-					set_private_property( $cmb, 'fields', [] );
+				PrivateAccess::in()->set_private_property( \CMB2_Options::class, 'option_sets', [] );
+				foreach ( PrivateAccess::in()->get_private_property( \CMB2_Boxes::class, 'cmb2_instances' ) as $cmb ) {
+					PrivateAccess::in()->set_private_property( $cmb, 'fields', [] );
 				}
 			} );
 		}
