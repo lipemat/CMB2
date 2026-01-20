@@ -1,0 +1,29 @@
+###################################################
+# Create a GitHub Release when a tag is pushed.
+#
+# @notice You must enable write permissions for this action to work.
+# 1. GitHub Settings
+# 2. Actions
+# 3. General
+# 4. Workflow permissions
+# 5. Enable "read and write permissions"
+#
+# @version 4.0.0
+#
+###################################################
+
+name: Create GitHub Release
+run-name: Create release for ${{ github.ref_name }} on GitHub.
+
+permissions:
+  contents: write
+  models: read
+
+on:
+  push:
+    tags-ignore:
+      - "*beta*"
+
+jobs:
+  create-release:
+    uses: lipemat/public-actions/.github/workflows/create-release.yml@version/2
