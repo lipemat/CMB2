@@ -1,7 +1,7 @@
 /*!
- * CMB2 - v2.11.0 - 2025-11-11
+ * CMB2 - v2.11.0 - 2026-03-17
  * https://cmb2.io
- * Copyright (c) 2025
+ * Copyright (c) 2026
  * Licensed GPLv2+
  */
 
@@ -209,7 +209,7 @@ body.block-editor-page.branch-5-3 .cmb2-wrap .cmb-row .cmb2-radio-list input[typ
 
 .cmb-repeat-table {
   background-color: #fafafa;
-  border: 1px solid rgb(225.35, 225.35, 225.35);
+  border: 1px solid #e1e1e1;
 }
 .cmb-repeat-table .cmb-row.cmb-repeat-row {
   position: relative;
@@ -251,7 +251,7 @@ body.block-editor-page.branch-5-3 .cmb2-wrap .cmb-row .cmb2-radio-list input[typ
   height: 1.6em;
   display: block;
   margin-left: 17px;
-  background-color: rgb(220.25, 220.25, 220.25);
+  background-color: gainsboro;
 }
 .cmb-repeat-table .cmb-remove-row {
   top: 10px;
@@ -502,6 +502,10 @@ span.cmb2-metabox-description {
   padding: 0;
   line-height: 1.3;
 }
+#poststuff .cmb2-postbox .cmb-td.inside, .cmb2-postbox .cmb-td.inside, #poststuff .cmb-type-group .cmb-td.inside, .cmb-type-group .cmb-td.inside {
+  padding: 0;
+  margin: 0;
+}
 .cmb2-postbox .cmb-th + .cmb-td, .cmb-type-group .cmb-th + .cmb-td {
   width: 80%;
   float: right;
@@ -713,6 +717,7 @@ span.cmb2-metabox-description {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.075);
   min-width: 17em;
   width: auto;
+  /* Default Color Scheme */
 }
 .cmb2-element.ui-datepicker *, .cmb2-element .ui-datepicker * {
   padding: 0;
@@ -868,9 +873,6 @@ span.cmb2-metabox-description {
 }
 .cmb2-element.ui-datepicker td.ui-state-disabled .ui-state-default, .cmb2-element .ui-datepicker td.ui-state-disabled .ui-state-default {
   opacity: 0.5;
-}
-.cmb2-element.ui-datepicker, .cmb2-element .ui-datepicker {
-  /* Default Color Scheme */
 }
 .cmb2-element.ui-datepicker .ui-widget-header,
 .cmb2-element.ui-datepicker .ui-datepicker-header, .cmb2-element .ui-datepicker .ui-widget-header,
