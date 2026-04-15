@@ -830,12 +830,22 @@ window.CMB2 = window.CMB2 || {};
 		var fromIterator = $from.attr('data-iterator');
 		var toIterator   = $goto.attr('data-iterator');
 
+		// Use temp names for radio buttons to avoid losing values when moving up.
+		$goto.find( cmb.repeatEls ).each( function(i) {
+			if ( $( this ).attr( 'type') === 'radio' ) {
+				cmb.updateNameAttr( $( this ), toIterator, 'temp-' + i );
+			}
+		} );
 		// Replace name attributes in both groups.
 		$from.find( cmb.repeatEls ).each( function() {
 			cmb.updateNameAttr( $( this ), fromIterator, toIterator );
 		});
-		$goto.find( cmb.repeatEls ).each( function() {
-			cmb.updateNameAttr( $( this ), toIterator, fromIterator );
+		$goto.find( cmb.repeatEls ).each( function(i) {
+			if ( $( this ).attr( 'type' ) === 'radio' ) {
+				cmb.updateNameAttr( $( this ), 'temp-' + i, fromIterator );
+			} else {
+				cmb.updateNameAttr( $( this ), toIterator, fromIterator );
+			}
 		});
 
 		// Replace titles in both groups.
@@ -1055,6 +1065,20 @@ window.CMB2 = window.CMB2 || {};
 				stop: function ( ev, ui ) {
 					var $from = $( ui.item ).parents( '[data-groupid]' );
 					var rows = $( ui.item ).parent().find( '.cmb-repeatable-grouping' );
+
+					// Use temp names for radio buttons to avoid losing values when moving around.
+					rows.each( function ( rowindex ) {
+						var row = $( this );
+						var prevNum = row.data( 'iterator' );
+						row.find( cmb.repeatEls ).each( function () {
+							var input = $( this );
+							if ( input.attr( 'type' ) === 'radio' ) {
+								var newName = input.attr( 'name' ).replace( '[' + prevNum + ']', '[temp-' + rowindex + ']' );
+								input.attr( 'name', newName );
+							}
+						} );
+					});
+
 					rows.each( function ( rowindex ) {
 						var row = $( this );
 						var prevNum = row.data( 'iterator' );
@@ -1065,6 +1089,9 @@ window.CMB2 = window.CMB2 || {};
 							var input = $( this );
 							if ( input.attr( 'name' ) ) {
 								var newName = input.attr( 'name' ).replace( '[' + prevNum + ']', '[' + rowindex + ']' );
+								if ( input.attr( 'type' ) === 'radio' ) {
+									newName = input.attr( 'name' ).replace( '[temp-' + rowindex + ']', '[' + rowindex + ']' );
+								}
 								input.attr( 'name', newName );
 							}
 							var newFieldId = input.attr( 'id' ).replace( '_' + prevNum + '_', '_' + rowindex + '_' );
