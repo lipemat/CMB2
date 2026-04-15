@@ -36,9 +36,10 @@ class CMB2_Type_Text_Datetime_Timestamp_Timezone extends CMB2_Type_Base {
 		$value    = '';
 		$tzstring = '';
 
-		if ( $datetime && $datetime instanceof DateTime ) {
+		if ( $datetime instanceof DateTime ) {
 			$tzstring = $datetime->getTimezone()->getName();
-			$value    = $datetime->getTimestamp();
+			$offset = wp_timezone()->getOffset( $datetime );
+			$value = $datetime->getTimestamp() - $offset;
 		}
 
 		$timestamp_args = wp_parse_args( $args['text_datetime_timestamp'], array(
