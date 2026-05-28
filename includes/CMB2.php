@@ -1412,9 +1412,9 @@ class CMB2 extends CMB2_Base {
 			return false;
 		}
 
-		list( $field_id, $sub_field_id ) = $ids;
+		[ $field_id, $sub_field_id ] = $ids;
 
-		$index = $field_id . ( $sub_field_id ? '|' . $sub_field_id : '' ) . ( $field_group ? '|' . $field_group->index : '' );
+		$index = $field_id . ( $sub_field_id ? '|' . $sub_field_id : '' ) . ( $field_group ? '|' . $field_group->index : '' ) . "|{$this->object_id}";
 
 		if ( array_key_exists( $index, $this->fields ) && ! $reset_cached ) {
 			return $this->fields[ $index ];
@@ -1638,7 +1638,7 @@ class CMB2 extends CMB2_Base {
 			return false;
 		}
 
-		list( $field_id, $sub_field_id ) = $ids;
+		[ $field_id, $sub_field_id ] = $ids;
 
 		unset( $this->fields[ implode( '', $ids ) ] );
 
@@ -1674,7 +1674,7 @@ class CMB2 extends CMB2_Base {
 			return false;
 		}
 
-		list( $field_id, $sub_field_id ) = $ids;
+		[ $field_id, $sub_field_id ] = $ids;
 
 		if ( ! $sub_field_id ) {
 			$this->meta_box['fields'][ $field_id ][ $property ] = $value;
