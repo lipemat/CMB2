@@ -96,6 +96,7 @@ class CMB2_Field extends CMB2_Base {
 	 */
 	public static $callable_fields = array(
 		'default_cb',
+		'description_cb',
 		'classes_cb',
 		'options_cb',
 		'text_cb',
@@ -1514,6 +1515,7 @@ class CMB2_Field extends CMB2_Base {
 			'type'              => $type,
 			'name'              => '',
 			'desc'              => '',
+			'description_cb'    => '',
 			'before'            => '',
 			'after'             => '',
 			'options'           => array(),

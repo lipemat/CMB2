@@ -428,7 +428,11 @@ class CMB2_Types {
 			return '';
 		}
 
-		$desc = $this->field->args( 'description' );
+
+		$desc = $this->field->get_param_callback_result( 'description_cb' );
+		if ( false === $desc || '' === $desc ) {
+			$desc = $this->field->args( 'description' );
+		}
 
 		if ( ! $desc ) {
 			return '';
