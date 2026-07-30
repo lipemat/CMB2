@@ -435,9 +435,8 @@ class CMB2_Field extends CMB2_Base {
 		// If no override, remove as usual.
 		if ( null !== $override ) {
 			return $override;
-		} // End if.
-		// Option page handling.
-		elseif ( 'options-page' === $a['type'] || empty( $a['id'] ) ) {
+		} elseif ( 'options-page' === $a['type'] || empty( $a['id'] ) ) {
+			// Option page handling.
 			return cmb2_options( $a['id'] )->remove( $a['field_id'] );
 		}
 
@@ -772,9 +771,8 @@ class CMB2_Field extends CMB2_Base {
 		// Is timezone arg set?
 		if ( $this->args( 'timezone' ) ) {
 			$value = $this->args( 'timezone' );
-		} // End if.
-		// Is there another meta key with a timezone stored as its value we should use?
-		elseif ( $this->args( 'timezone_meta_key' ) ) {
+		} elseif ( $this->args( 'timezone_meta_key' ) ) {
+			// Is there another meta key with a timezone stored as its value we should use?
 			$value = $this->get_data( $this->args( 'timezone_meta_key' ) );
 		} else {
 			$value = wp_timezone_string();

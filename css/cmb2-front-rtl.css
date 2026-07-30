@@ -1,5 +1,5 @@
 /*!
- * CMB2 - v2.11.0 - 2026-04-15
+ * CMB2 - v2.12.0 - 2026-07-30
  * https://cmb2.io
  * Copyright (c) 2026
  * Licensed GPLv2+
@@ -57,10 +57,6 @@
 .cmb2-wrap select {
   font-size: 14px;
   margin-top: 3px;
-}
-.cmb2-wrap input:focus,
-.cmb2-wrap textarea:focus {
-  background: #fffff8;
 }
 .cmb2-wrap input[type=radio] {
   margin: 0 0 0 5px;
@@ -209,7 +205,7 @@ body.block-editor-page.branch-5-3 .cmb2-wrap .cmb-row .cmb2-radio-list input[typ
 
 .cmb-repeat-table {
   background-color: #fafafa;
-  border: 1px solid #e1e1e1;
+  border: 1px solid rgb(225.35, 225.35, 225.35);
 }
 .cmb-repeat-table .cmb-row.cmb-repeat-row {
   position: relative;
@@ -251,7 +247,7 @@ body.block-editor-page.branch-5-3 .cmb2-wrap .cmb-row .cmb2-radio-list input[typ
   height: 1.6em;
   display: block;
   margin-right: 17px;
-  background-color: gainsboro;
+  background-color: rgb(220.25, 220.25, 220.25);
 }
 .cmb-repeat-table .cmb-remove-row {
   top: 10px;
@@ -378,8 +374,8 @@ span.cmb2-metabox-description {
   border: 5px solid #ffffff;
   outline: 1px solid #e9e9e9;
   box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-  background-image: linear-gradient(45deg, #d0d0d0 25%, transparent 25%, transparent 75%, #d0d0d0 75%, #d0d0d0), linear-gradient(45deg, #d0d0d0 25%, transparent 25%, transparent 75%, #d0d0d0 75%, #d0d0d0);
-  background-position: 0 0, 10px 10px;
+  background-image: linear-gradient(-45deg, #d0d0d0 25%, transparent 25%, transparent 75%, #d0d0d0 75%, #d0d0d0), linear-gradient(-45deg, #d0d0d0 25%, transparent 25%, transparent 75%, #d0d0d0 75%, #d0d0d0);
+  background-position: 100% 0, right 10px top 10px;
   background-size: 20px 20px;
   border-radius: 2px;
   -moz-border-radius: 2px;
@@ -717,7 +713,6 @@ span.cmb2-metabox-description {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.075);
   min-width: 17em;
   width: auto;
-  /* Default Color Scheme */
 }
 .cmb2-element.ui-datepicker *, .cmb2-element .ui-datepicker * {
   padding: 0;
@@ -873,6 +868,9 @@ span.cmb2-metabox-description {
 }
 .cmb2-element.ui-datepicker td.ui-state-disabled .ui-state-default, .cmb2-element .ui-datepicker td.ui-state-disabled .ui-state-default {
   opacity: 0.5;
+}
+.cmb2-element.ui-datepicker, .cmb2-element .ui-datepicker {
+  /* Default Color Scheme */
 }
 .cmb2-element.ui-datepicker .ui-widget-header,
 .cmb2-element.ui-datepicker .ui-datepicker-header, .cmb2-element .ui-datepicker .ui-widget-header,
@@ -1146,5 +1144,3 @@ span.cmb2-metabox-description {
 .cmb2-char-max-msg {
   display: none;
 }
-
-/*# sourceMappingURL=cmb2-front.css.map */

@@ -93,10 +93,12 @@ class CMB2_Type_Wysiwyg extends CMB2_Type_Textarea {
 			'cmb2_v_' . $group_id . $field_id,
 			'cmb2_i_' . $this->sanitize_id( $group_id ) . $this->sanitize_id( $field_id ),
 			), array(
-			'{{ data.name }}',
-			'{{{ data.value }}}',
-			'{{ data.id }}',
-		), $editor );
+				'{{ data.name }}',
+				'{{{ data.value }}}',
+				'{{ data.id }}',
+			),
+			$editor
+		);
 
 		// And put the editor instance in a JS template wrapper.
 		echo '<script type="text/template" id="tmpl-cmb2-wysiwyg-' . $this->sanitize_id($group_id ) . '-' . $this->sanitize_id( $field_id ) . '">';

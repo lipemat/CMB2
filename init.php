@@ -18,7 +18,7 @@
  *               Bill Erickson (@billerickson / billerickson.net)
  *               Andrew Norcross (@norcross / andrewnorcross.com)
  *
- * Version:      2.11.0.11
+ * Version:      2.12.0
  *
  * Text Domain:  cmb2
  * Domain Path:  languages
@@ -56,7 +56,7 @@
 
 use Lipe\WP_Unit\Utils\PrivateAccess;
 
-if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
+if ( ! class_exists( 'CMB2_Bootstrap_2120', false ) ) {
 	/**
 	 * Handles checking for and loading the newest version of CMB2
 	 *
@@ -68,7 +68,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 	 * @package   CMB2
 	 * @category  WordPress_Plugin
 	 */
-	class CMB2_Bootstrap_2101 {
+	class CMB2_Bootstrap_2120 {
 
 		/**
 		 * Current version number
@@ -76,7 +76,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 		 * @since 1.0.0
 		 * @var   string
 		 */
-		const VERSION = '2.11.0.11';
+		const VERSION = '2.12.0';
 
 		/**
 		 * Current version hook priority.
@@ -88,18 +88,18 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 		const PRIORITY = 89;
 
 		/**
-		 * Single instance of the CMB2_Bootstrap_2101 object
+		 * Single instance of the CMB2_Bootstrap_2120 object
 		 *
-		 * @var CMB2_Bootstrap_2101
+		 * @var CMB2_Bootstrap_2120
 		 */
 		public static $single_instance = null;
 
 
 		/**
-		 * Creates/returns the single instance CMB2_Bootstrap_2101 object
+		 * Creates/returns the single instance CMB2_Bootstrap_2120 object
 		 *
 		 * @since  2.0.0
-		 * @return CMB2_Bootstrap_2101 Single instance object
+		 * @return CMB2_Bootstrap_2120 Single instance object
 		 */
 		public static function initiate() {
 			if ( null === self::$single_instance ) {
@@ -157,7 +157,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 			}
 
 			if ( ! defined( 'CMB2_DIR' ) ) {
-				define( 'CMB2_DIR', trailingslashit( dirname( __FILE__ ) ) );
+				define( 'CMB2_DIR', trailingslashit( __DIR__ ) );
 			}
 
 			$this->l10ni18n();
@@ -168,7 +168,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 			require_once CMB2_DIR . 'includes/helper-functions.php';
 
 			// Kick the whole thing off.
-			require_once( cmb2_dir( 'bootstrap.php' ) );
+			require_once cmb2_dir( 'bootstrap.php' );
 			cmb2_bootstrap();
 		}
 
@@ -210,7 +210,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 
 			if ( ! $loaded ) {
 				$locale = apply_filters( 'plugin_locale', function_exists( 'determine_locale' ) ? determine_locale() : get_locale(), 'cmb2' );
-				$mofile = dirname( __FILE__ ) . '/languages/cmb2-' . $locale . '.mo';
+				$mofile = __DIR__ . '/languages/cmb2-' . $locale . '.mo';
 				load_textdomain( 'cmb2', $mofile );
 			}
 		}
@@ -239,5 +239,6 @@ if ( ! class_exists( 'CMB2_Bootstrap_2101', false ) ) {
 	}
 
 	// Make it so...
-	CMB2_Bootstrap_2101::initiate();
+	CMB2_Bootstrap_2120::initiate();
+
 }// End if().

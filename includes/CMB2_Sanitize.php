@@ -455,7 +455,7 @@ class CMB2_Sanitize {
 	 * @return string       Sanitized data
 	 */
 	public function textarea() {
-		return \is_array( $this->value ) ? \array_map( 'wp_kses_post', $this->value ) : wp_kses_post( (string) $this->value );
+		return is_array( $this->value ) ? array_map( 'wp_kses_post', $this->value ) : ( $this->value !== null ? wp_kses_post( $this->value ) : '' );
 	}
 
 	/**
@@ -597,7 +597,7 @@ class CMB2_Sanitize {
 		$values_array = $this->value;
 
 		$new_value = array();
-		foreach ( $values_array as $iterator => $this->value ) {
+		foreach ( $values_array as $this->value ) {
 			if ( $this->value ) {
 				$val = $this->$method( true );
 				if ( ! empty( $val ) ) {

@@ -24,15 +24,24 @@ composer require lipemat/cmb2
 require __DIR__ . '/vendor/autoload.php'
 ```
 
-### Original Readme
+# Original Readme
 
-**Contributors:**  [Mat Lipe](https://github.com/lipemat),    [jtsternberg](https://github.com/jtsternberg), [webdevstudios](https://github.com/webdevstudios), [zao](https://github.com/zao-web), [humanmade](https://github.com/humanmade)
-**Homepage:**          [https://cmb2.io](https://cmb2.io)
-**Tags:**              metaboxes, forms, fields, options, settings
-**Requires at least:** 3.8.0
-**Tested up to:**      6.4
-**Stable tag:**        2.11.0
-**License:**           GPLv2 or later
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/CMB2?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub Actions](https://github.com/CMB2/CMB2/workflows/PHPUnit%20Tests/badge.svg)](https://github.com/CMB2/CMB2/actions)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/CMB2/CMB2.svg)](https://scrutinizer-ci.com/g/CMB2/CMB2/?branch=develop)
+[![Scrutinizer Coverage](https://img.shields.io/scrutinizer/coverage/g/CMB2/CMB2.svg)](https://scrutinizer-ci.com/g/CMB2/CMB2/?branch=develop)
+[![Project Stats](https://www.openhub.net/p/CMB2/widgets/project_thin_badge.gif)](https://www.openhub.net/p/CMB2)
+
+![CMB2](https://plugins.trac.wordpress.org/export/HEAD/cmb2/assets/banner-1544x500.png)
+
+**Contributors:**      [jtsternberg](https://github.com/jtsternberg), [webdevstudios](https://github.com/webdevstudios), [zao](https://github.com/zao-web), [humanmade](https://github.com/humanmade)  
+**Homepage:**          [https://cmb2.io](https://cmb2.io)  
+**Tags:**              metaboxes, forms, fields, options, settings  
+**Requires at least:** 3.8.0  
+**Requires PHP:**      7.4  
+**Tested up to:**      7.0  
+**Stable tag:**        2.12.0  
+**License:**           GPLv2 or later  
 **License URI:**       [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)
 
 [![Wordpress plugin](https://img.shields.io/wordpress/plugin/v/cmb2.svg)](https://wordpress.org/plugins/cmb2/)
