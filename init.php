@@ -54,6 +54,7 @@
  * ***********************************************************************
  */
 
+use Lipe\WP_Unit\Exceptions\TestHelperException;
 use Lipe\WP_Unit\Utils\PrivateAccess;
 
 if ( ! class_exists( 'CMB2_Bootstrap_2120', false ) ) {
@@ -225,20 +226,16 @@ if ( ! class_exists( 'CMB2_Bootstrap_2120', false ) ) {
 		 * @return void
 		 */
 		private function reset_between_tests(): void {
-			// Reset the classes between tests.
 			if ( ! \defined( 'WP_UNIT_DIR' ) || ! \class_exists( PrivateAccess::class ) ) {
 				return;
 			}
 			add_action( 'wp-unit/reset-container', function() {
 				PrivateAccess::in()->set_private_property( \CMB2_Options::class, 'option_sets', [] );
-				foreach ( PrivateAccess::in()->get_private_property( \CMB2_Boxes::class, 'cmb2_instances' ) as $cmb ) {
-					PrivateAccess::in()->set_private_property( $cmb, 'fields', [] );
-				}
+				PrivateAccess::in()->set_private_property( \CMB2_Boxes::class, 'cmb2_instances', [] );
 			} );
 		}
 	}
 
 	// Make it so...
 	CMB2_Bootstrap_2120::initiate();
-
 }// End if().
