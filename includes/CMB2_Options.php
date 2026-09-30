@@ -58,6 +58,18 @@ class CMB2_Option {
 	protected $key = '';
 
 	/**
+	 * Have the options been retrieved from the database?
+	 *
+	 * An empty options array is a legitimate state, so emptiness
+	 * may not stand in for "not retrieved yet".
+	 *
+	 * @since 2.12.0.2
+	 *
+	 * @var bool
+	 */
+	protected $retrieved = false;
+
+	/**
 	 * Initiate option object
 	 *
 	 * @param string $option_key Option key where data will be saved.
@@ -77,6 +89,7 @@ class CMB2_Option {
 	public function delete_option() {
 		$deleted = $this->key ? delete_option( $this->key ) : true;
 		$this->options = $deleted ? array() : $this->options;
+		$this->retrieved = $deleted ? true : $this->retrieved;
 		return $this->options;
 	}
 
@@ -183,6 +196,9 @@ class CMB2_Option {
 			return false;
 		}
 
+		// What we just stored is now the authoritative set of options.
+		$this->retrieved = true;
+
 		$test_save = apply_filters( "cmb2_override_option_save_{$this->key}", 'cmb2_no_override_option_save', $this->options, $this );
 
 		if ( 'cmb2_no_override_option_save' !== $test_save ) {
@@ -225,7 +241,7 @@ class CMB2_Option {
 	 * @return mixed          Value set for the option.
 	 */
 	public function get_options( $default = null ) {
-		if ( empty( $this->options ) && ! empty( $this->key ) ) {
+		if ( ! $this->retrieved && ! empty( $this->key ) ) {
 			$test_get = apply_filters( "cmb2_override_option_get_{$this->key}", 'cmb2_no_override_option_get', $default, $this );
 
 			if ( 'cmb2_no_override_option_get' !== $test_get ) {
@@ -234,6 +250,7 @@ class CMB2_Option {
 				// If no override, get the option.
 				$this->options = get_option( $this->key, $default );
 			}
+			$this->retrieved = true;
 		}
 
 		$this->options = (array) \apply_filters( "cmb2_options_get_{$this->key}", $this->options, $this );

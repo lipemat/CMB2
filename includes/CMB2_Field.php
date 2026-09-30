@@ -436,8 +436,12 @@ class CMB2_Field extends CMB2_Base {
 		if ( null !== $override ) {
 			return $override;
 		} elseif ( 'options-page' === $a['type'] || empty( $a['id'] ) ) {
-			// Option page handling.
-			return cmb2_options( $a['id'] )->remove( $a['field_id'] );
+			// Option page handling. `remove` returns the surviving options, which say nothing about this field.
+			$options = cmb2_options( $a['id'] );
+			$existed = array_key_exists( $a['field_id'], $options->get( 'all' ) );
+			$options->remove( $a['field_id'] );
+
+			return $existed;
 		}
 
 		// Remove metadata.
