@@ -32,25 +32,6 @@ class CMB2_Options {
 
 		return self::$option_sets[ $option_key ];
 	}
-
-
-	/**
-	 * Forget the options retrieved for an option key.
-	 *
-	 * The existing instance is refreshed in place so any references
-	 * already handed out pick up the new values.
-	 *
-	 * @since 2.12.0.4
-	 *
-	 * @param string $option_key Option key which changed.
-	 *
-	 * @return void
-	 */
-	public static function refresh( $option_key ) {
-		if ( ! empty( self::$option_sets[ $option_key ] ) ) {
-			self::$option_sets[ $option_key ]->refresh();
-		}
-	}
 }
 
 /**
@@ -77,40 +58,29 @@ class CMB2_Option {
 	protected $key = '';
 
 	/**
-	 * Have the options been retrieved from the database?
+	 * Do the options held here beat what is stored?
 	 *
-	 * An empty options array is a legitimate state, so emptiness
-	 * may not stand in for "not retrieved yet".
+	 * True while changes are staged for the next `set`, or when an override
+	 * filter answered the read in place of the database. Otherwise every read
+	 * goes back to `get_option`, so writes made outside of CMB2 are picked up.
 	 *
-	 * @since 2.12.0.2
+	 * @since 2.12.0.4
 	 *
 	 * @var bool
 	 */
-	protected $retrieved = false;
+	protected $skip_database_reads = false;
 
 	/**
-	 * Id of the site the options were retrieved from.
+	 * Id of the site the held options belong to.
 	 *
-	 * Options are per site, so a `switch_to_blog` invalidates
-	 * anything already retrieved.
+	 * Options are per site, so a `switch_to_blog` gives up
+	 * anything held here.
 	 *
 	 * @since 2.12.0.4
 	 *
 	 * @var int
 	 */
 	protected $site_id = 0;
-
-	/**
-	 * Is this object in the middle of storing its options?
-	 *
-	 * Keeps our own write from being treated as an outside change,
-	 * which would discard the values we just staged.
-	 *
-	 * @since 2.12.0.4
-	 *
-	 * @var bool
-	 */
-	protected $saving = false;
 
 
 	/**
@@ -127,26 +97,6 @@ class CMB2_Option {
 
 
 	/**
-	 * Forget any options already retrieved so the next read goes
-	 * back to the database.
-	 *
-	 * Called when the option is written outside of this object.
-	 *
-	 * @since 2.12.0.4
-	 *
-	 * @return void
-	 */
-	public function refresh() {
-		if ( $this->saving || empty( $this->key ) ) {
-			return;
-		}
-
-		$this->options = [];
-		$this->retrieved = false;
-	}
-
-
-	/**
 	 * Delete the option from the db
 	 *
 	 * @since  2.0.0
@@ -154,9 +104,10 @@ class CMB2_Option {
 	 */
 	public function delete_option() {
 		$deleted = $this->key ? delete_option( $this->key ) : true;
-		$this->options = $deleted ? [] : $this->options;
-		$this->retrieved = $deleted ? true : $this->retrieved;
-		$this->site_id = $deleted ? get_current_blog_id() : $this->site_id;
+		if ( $deleted ) {
+			$this->options = [];
+			$this->skip_database_reads = false;
+		}
 		return $this->options;
 	}
 
@@ -176,6 +127,7 @@ class CMB2_Option {
 
 		if ( isset( $this->options[ $field_id ] ) ) {
 			unset( $this->options[ $field_id ] );
+			$this->skip_database_reads();
 		}
 
 		if ( $resave ) {
@@ -237,6 +189,7 @@ class CMB2_Option {
 			} else {
 				$this->options[ $field_id ] = $value;
 			}
+			$this->skip_database_reads();
 		}
 
 		if ( $resave || true === $field_id ) {
@@ -270,44 +223,37 @@ class CMB2_Option {
 			return false;
 		}
 
-		// What we just stored is now the authoritative set of options.
-		$this->retrieved = true;
-		$this->site_id = get_current_blog_id();
+		$test_save = apply_filters( "cmb2_override_option_save_{$this->key}", 'cmb2_no_override_option_save', $this->options, $this );
 
-		// Our own write must not be mistaken for an outside change.
-		$this->saving = true;
-
-		try {
-			$test_save = apply_filters( "cmb2_override_option_save_{$this->key}", 'cmb2_no_override_option_save', $this->options, $this );
-
-			if ( 'cmb2_no_override_option_save' !== $test_save ) {
-				// If overridden, do not proceed to update the option, just return result.
-				return true;
-			}
-
-			/**
-			 * Whether to auto-load the option when WordPress starts up.
-			 *
-			 * The dynamic portion of the hook name, $this->key, refers to the option key.
-			 *
-			 * @since 2.4.0
-			 *
-			 * @param bool        $autoload   Whether to load the option when WordPress starts up.
-			 * @param CMB2_Option $cmb_option This object.
-			 */
-			$autoload = apply_filters( "cmb2_should_autoload_{$this->key}", true, $this );
-
-			if ( update_option(
-				$this->key,
-				$this->options,
-				! ( ! $autoload || 'no' === $autoload )
-			) ) {
-				$this->options = wp_unslash( get_option( $this->key ) );
-			}
+		if ( 'cmb2_no_override_option_save' !== $test_save ) {
+			// Stored somewhere we cannot read back, so what we hold is all we know.
+			$this->skip_database_reads();
 			return true;
-		} finally {
-			$this->saving = false;
 		}
+
+		/**
+		 * Whether to auto-load the option when WordPress starts up.
+		 *
+		 * The dynamic portion of the hook name, $this->key, refers to the option key.
+		 *
+		 * @since 2.4.0
+		 *
+		 * @param bool        $autoload   Whether to load the option when WordPress starts up.
+		 * @param CMB2_Option $cmb_option This object.
+		 */
+		$autoload = apply_filters( "cmb2_should_autoload_{$this->key}", true, $this );
+
+		if ( update_option(
+			$this->key,
+			$this->options,
+			! ( ! $autoload || 'no' === $autoload )
+		) ) {
+			$this->options = wp_unslash( get_option( $this->key ) );
+		}
+		// What is stored is the source of truth again.
+		$this->skip_database_reads = false;
+
+		return true;
 	}
 
 
@@ -323,22 +269,51 @@ class CMB2_Option {
 	 * @return mixed          Value set for the option.
 	 */
 	public function get_options( $default = null ) {
-		if ( ! empty( $this->key ) && ( ! $this->retrieved || get_current_blog_id() !== $this->site_id ) ) {
+		if ( ! empty( $this->key ) && ! $this->are_database_reads_skipped() ) {
 			$test_get = apply_filters( "cmb2_override_option_get_{$this->key}", 'cmb2_no_override_option_get', $default, $this );
 
 			if ( 'cmb2_no_override_option_get' !== $test_get ) {
+				// An override is the only place this value may be read from.
 				$this->options = $test_get;
+				$this->skip_database_reads();
 			} else {
-				// If no override, get the option.
 				$this->options = get_option( $this->key, $default );
+				$this->skip_database_reads = false;
+				$this->site_id = get_current_blog_id();
 			}
-			$this->retrieved = true;
-			$this->site_id = get_current_blog_id();
 		}
 
 		$this->options = (array) \apply_filters( "cmb2_options_get_{$this->key}", $this->options, $this );
 
 		return $this->options;
+	}
+
+
+	/**
+	 * Hold onto the current options in place of what is stored.
+	 *
+	 * @since 2.12.0.4
+	 *
+	 * @return void
+	 */
+	protected function skip_database_reads(): void {
+		$this->skip_database_reads = true;
+		$this->site_id = get_current_blog_id();
+	}
+
+
+	/**
+	 * Do the options held here still beat the stored ones?
+	 *
+	 * Options belong to a single site, so switching sites gives up
+	 * anything held no matter where it came from.
+	 *
+	 * @since 2.12.0.4
+	 *
+	 * @return bool
+	 */
+	protected function are_database_reads_skipped(): bool {
+		return $this->skip_database_reads && get_current_blog_id() === $this->site_id;
 	}
 
 

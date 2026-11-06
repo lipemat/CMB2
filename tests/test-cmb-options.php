@@ -198,6 +198,60 @@ class Test_CMB2_Options extends CMB2TestCase {
 		$this->assertSame( array( 'my_name' => 'Justin' ), $opts->get_options() );
 	}
 
+	/**
+	 * A `pre_option_*` filter changes the value without touching the row,
+	 * so no option write action fires.
+	 */
+	public function test_pre_option_filter_added_after_a_read() {
+		$opts = cmb2_options( $this->options_cmb->cmb_id );
+		$this->assertSame( $this->opt_set, $opts->get_options() );
+
+		add_filter( "pre_option_{$this->options_cmb->cmb_id}", function() {
+			return array( 'my_name' => 'Van Anh' );
+		} );
+
+		$this->assertSame( array( 'my_name' => 'Van Anh' ), $opts->get_options() );
+	}
+
+	public function test_staged_values_are_held_until_set() {
+		$opts = cmb2_options( 'cmb_staged_option' );
+
+		$opts->update( 'my_name', 'Justin' );
+
+		$this->assertSame( array( 'my_name' => 'Justin' ), $opts->get_options() );
+		$this->assertFalse( get_option( 'cmb_staged_option' ) );
+
+		$opts->set();
+
+		$this->assertSame( array( 'my_name' => 'Justin' ), get_option( 'cmb_staged_option' ) );
+	}
+
+	public function test_an_outside_write_does_not_discard_staged_values() {
+		$opts = cmb2_options( $this->options_cmb->cmb_id );
+		$opts->update( 'my_name', 'Van Anh' );
+
+		update_option( $this->options_cmb->cmb_id, array( 'my_name' => 'Stale' ) );
+
+		$this->assertSame( 'Van Anh', $opts->get( 'my_name' ) );
+	}
+
+	/**
+	 * A `cmb2_override_option_get_*` handler is the only place the value
+	 * may come from, so the database must not be read behind it.
+	 */
+	public function test_override_get_handler_answers_every_read() {
+		add_filter( 'cmb2_override_option_get_cmb_override_get_option', function() {
+			return array( 'my_name' => 'Justin' );
+		} );
+
+		$opts = cmb2_options( 'cmb_override_get_option' );
+		$this->assertSame( array( 'my_name' => 'Justin' ), $opts->get_options() );
+
+		update_option( 'cmb_override_get_option', array( 'my_name' => 'Van Anh' ) );
+
+		$this->assertSame( array( 'my_name' => 'Justin' ), $opts->get_options() );
+	}
+
 	public function test_options_are_read_per_site() {
 		$this->skipWithoutMultisite();
 

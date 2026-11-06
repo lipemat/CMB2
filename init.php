@@ -137,40 +137,7 @@ if ( ! class_exists( 'CMB2_Bootstrap_2120', false ) ) {
 
 			add_action( 'init', [ $this, 'include_cmb' ], self::PRIORITY );
 
-			$this->refresh_on_outside_writes();
 			$this->reset_between_tests();
-		}
-
-
-		/**
-		 * Keep retrieved options in sync with writes made outside of CMB2.
-		 *
-		 * A `CMB2_Option` holds onto what it retrieved for its lifetime, so a
-		 * native `add_option`/`update_option`/`delete_option` against the same
-		 * key would otherwise go unnoticed for the rest of the request.
-		 *
-		 * @since 2.12.0.4
-		 *
-		 * @return void
-		 */
-		private function refresh_on_outside_writes(): void {
-			$actions = [
-				'added_option',
-				'updated_option',
-				'deleted_option',
-				// Network options back an options page registered on `network_admin_menu`.
-				'add_site_option',
-				'update_site_option',
-				'delete_site_option',
-			];
-			foreach ( $actions as $action ) {
-				add_action( $action, function( $option ) {
-					// No instances exist until the class has been loaded.
-					if ( \is_string( $option ) && \class_exists( \CMB2_Options::class, false ) ) {
-						\CMB2_Options::refresh( $option );
-					}
-				} );
-			}
 		}
 
 
