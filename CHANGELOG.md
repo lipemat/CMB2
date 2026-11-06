@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 ## Unreleased
 *
 
+## 2.12.0.4 - 2026-11-06
+
+### Bug Fixes
+
+* A `CMB2_Option` no longer holds onto the first value it read for the life of the request, so an option changed outside of CMB2 is picked up. Reads go back through `get_option`, which WordPress already serves from `alloptions` or the options cache. Values staged by `CMB2_Option::update`/`CMB2_Option::remove` are kept until the next `CMB2_Option::set`, and a `cmb2_override_option_get_{$key}` handler still answers every read.
+* Switching sites with `switch_to_blog` gives up the options held for the previous site.
+
 ## [2.12.0 - 2026-05-30](https://github.com/CMB2/CMB2/releases/tag/v2.12.0)
 
 ### Enhancements
