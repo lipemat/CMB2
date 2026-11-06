@@ -136,4 +136,81 @@ class Test_CMB2_Options extends CMB2TestCase {
 		$this->assertSame( $val, $new_value );
 	}
 
+	public function test_add_option_from_outside_after_an_empty_read() {
+		$opts = cmb2_options( 'cmb_outside_add_option' );
+		$this->assertSame( array(), $opts->get_options() );
+
+		add_option( 'cmb_outside_add_option', array( 'my_name' => 'Van Anh' ) );
+
+		$this->assertSame( array( 'my_name' => 'Van Anh' ), $opts->get_options() );
+	}
+
+	public function test_update_option_from_outside_after_an_empty_read() {
+		$opts = cmb2_options( 'cmb_outside_update_option' );
+		$this->assertSame( array(), $opts->get_options() );
+
+		update_option( 'cmb_outside_update_option', array( 'my_name' => 'Justin' ) );
+
+		$this->assertSame( array( 'my_name' => 'Justin' ), $opts->get_options() );
+	}
+
+	public function test_update_option_from_outside_after_a_populated_read() {
+		$this->assertSame( 'Justin', cmb2_get_option( $this->options_cmb->cmb_id, 'my_name' ) );
+
+		update_option( $this->options_cmb->cmb_id, array( 'my_name' => 'James' ) );
+
+		$this->assertSame( 'James', cmb2_get_option( $this->options_cmb->cmb_id, 'my_name' ) );
+	}
+
+	public function test_delete_option_from_outside_after_a_populated_read() {
+		$opts = cmb2_options( $this->options_cmb->cmb_id );
+		$this->assertSame( $this->opt_set, $opts->get_options() );
+
+		delete_option( $this->options_cmb->cmb_id );
+
+		$this->assertSame( array(), $opts->get_options() );
+	}
+
+	public function test_write_to_another_option_leaves_the_values_alone() {
+		$opts = cmb2_options( $this->options_cmb->cmb_id );
+		$this->assertSame( $this->opt_set, $opts->get_options() );
+
+		update_option( 'cmb_unrelated_option', 'anything' );
+
+		$this->assertSame( $this->opt_set, $opts->get_options() );
+	}
+
+	/**
+	 * A `cmb2_override_option_save_*` handler does the storing itself, so the
+	 * write it makes must not be mistaken for an outside change.
+	 */
+	public function test_set_wins_over_a_write_made_while_saving() {
+		$opts = cmb2_options( 'cmb_override_save_option' );
+
+		add_filter( 'cmb2_override_option_save_cmb_override_save_option', function() {
+			update_option( 'cmb_override_save_option', array( 'my_name' => 'Stale' ) );
+			return true;
+		} );
+
+		$opts->update( 'my_name', 'Justin' );
+		$opts->set();
+
+		$this->assertSame( array( 'my_name' => 'Justin' ), $opts->get_options() );
+	}
+
+	public function test_options_are_read_per_site() {
+		$this->skipWithoutMultisite();
+
+		update_option( 'cmb_per_site_option', array( 'my_name' => 'Justin' ) );
+		$opts = cmb2_options( 'cmb_per_site_option' );
+		$this->assertSame( array( 'my_name' => 'Justin' ), $opts->get_options() );
+
+		switch_to_blog( self::factory()->blog->create() );
+		update_option( 'cmb_per_site_option', array( 'my_name' => 'Van Anh' ) );
+		$this->assertSame( array( 'my_name' => 'Van Anh' ), $opts->get_options() );
+		restore_current_blog();
+
+		$this->assertSame( array( 'my_name' => 'Justin' ), $opts->get_options() );
+	}
+
 }

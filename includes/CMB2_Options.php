@@ -2,35 +2,54 @@
 /**
  * CMB2 Utility classes for handling multi-dimensional array data for options
  *
- * @category  WordPress_Plugin
- * @package   CMB2
  * @author    CMB2 team
- * @license   GPL-2.0+
  * @link      https://cmb2.io
+ * @license   GPL-2.0+
+ * @package   CMB2
+ * @category  WordPress_Plugin
  */
 
 /**
  * Retrieves an instance of CMB2_Option based on the option key
  *
- * @package   CMB2
  * @author    CMB2 team
+ * @package   CMB2
  */
 class CMB2_Options {
 	/**
 	 * Array of all CMB2_Option instances
 	 *
-	 * @var   array
 	 * @since 1.0.0
+	 * @var   CMB2_Option[]
 	 */
-	protected static $option_sets = array();
+	protected static $option_sets = [];
+
 
 	public static function get( $option_key ) {
-
 		if ( empty( self::$option_sets ) || empty( self::$option_sets[ $option_key ] ) ) {
 			self::$option_sets[ $option_key ] = new CMB2_Option( $option_key );
 		}
 
 		return self::$option_sets[ $option_key ];
+	}
+
+
+	/**
+	 * Forget the options retrieved for an option key.
+	 *
+	 * The existing instance is refreshed in place so any references
+	 * already handed out pick up the new values.
+	 *
+	 * @since 2.12.0.4
+	 *
+	 * @param string $option_key Option key which changed.
+	 *
+	 * @return void
+	 */
+	public static function refresh( $option_key ) {
+		if ( ! empty( self::$option_sets[ $option_key ] ) ) {
+			self::$option_sets[ $option_key ]->refresh();
+		}
 	}
 }
 
@@ -38,8 +57,8 @@ class CMB2_Options {
  * Handles getting/setting of values to an option array
  * for a specific option key
  *
- * @package   CMB2
  * @author    CMB2 team
+ * @package   CMB2
  */
 class CMB2_Option {
 
@@ -48,7 +67,7 @@ class CMB2_Option {
 	 *
 	 * @var array
 	 */
-	protected $options = array();
+	protected $options = [];
 
 	/**
 	 * Current option key
@@ -70,15 +89,62 @@ class CMB2_Option {
 	protected $retrieved = false;
 
 	/**
+	 * Id of the site the options were retrieved from.
+	 *
+	 * Options are per site, so a `switch_to_blog` invalidates
+	 * anything already retrieved.
+	 *
+	 * @since 2.12.0.4
+	 *
+	 * @var int
+	 */
+	protected $site_id = 0;
+
+	/**
+	 * Is this object in the middle of storing its options?
+	 *
+	 * Keeps our own write from being treated as an outside change,
+	 * which would discard the values we just staged.
+	 *
+	 * @since 2.12.0.4
+	 *
+	 * @var bool
+	 */
+	protected $saving = false;
+
+
+	/**
 	 * Initiate option object
+	 *
+	 * @since 2.0.0
 	 *
 	 * @param string $option_key Option key where data will be saved.
 	 *                           Leave empty for temporary data store.
-	 * @since 2.0.0
 	 */
 	public function __construct( $option_key = '' ) {
 		$this->key = ! empty( $option_key ) ? $option_key : '';
 	}
+
+
+	/**
+	 * Forget any options already retrieved so the next read goes
+	 * back to the database.
+	 *
+	 * Called when the option is written outside of this object.
+	 *
+	 * @since 2.12.0.4
+	 *
+	 * @return void
+	 */
+	public function refresh() {
+		if ( $this->saving || empty( $this->key ) ) {
+			return;
+		}
+
+		$this->options = [];
+		$this->retrieved = false;
+	}
+
 
 	/**
 	 * Delete the option from the db
@@ -88,21 +154,24 @@ class CMB2_Option {
 	 */
 	public function delete_option() {
 		$deleted = $this->key ? delete_option( $this->key ) : true;
-		$this->options = $deleted ? array() : $this->options;
+		$this->options = $deleted ? [] : $this->options;
 		$this->retrieved = $deleted ? true : $this->retrieved;
+		$this->site_id = $deleted ? get_current_blog_id() : $this->site_id;
 		return $this->options;
 	}
+
 
 	/**
 	 * Removes an option from an option array
 	 *
 	 * @since  1.0.1
+	 *
 	 * @param string $field_id Option array field key.
-	 * @param bool   $resave Whether or not to resave.
+	 * @param bool   $resave   Whether or not to resave.
+	 *
 	 * @return array             Modified options
 	 */
 	public function remove( $field_id, $resave = false ) {
-
 		$this->get_options();
 
 		if ( isset( $this->options[ $field_id ] ) ) {
@@ -116,12 +185,15 @@ class CMB2_Option {
 		return $this->options;
 	}
 
+
 	/**
 	 * Retrieves an option from an option array
 	 *
 	 * @since  1.0.1
+	 *
 	 * @param string $field_id Option array field key.
 	 * @param mixed  $default  Fallback value for the option.
+	 *
 	 * @return mixed            Requested field or default
 	 */
 	public function get( $field_id, $default = false ) {
@@ -142,21 +214,23 @@ class CMB2_Option {
 		return $opts[ $field_id ];
 	}
 
+
 	/**
 	 * Updates Option data
 	 *
 	 * @since  1.0.1
+	 *
 	 * @param string $field_id Option array field key.
 	 * @param mixed  $value    Value to update data with.
 	 * @param bool   $resave   Whether to re-save the data.
 	 * @param bool   $single   Whether data should not be an array.
+	 *
 	 * @return boolean Return status of update.
 	 */
 	public function update( $field_id, $value = '', $resave = false, $single = true ) {
 		$this->get_options();
 
 		if ( true !== $field_id ) {
-
 			if ( ! $single ) {
 				// If multiple, add to array.
 				$this->options[ $field_id ][] = $value;
@@ -198,34 +272,42 @@ class CMB2_Option {
 
 		// What we just stored is now the authoritative set of options.
 		$this->retrieved = true;
+		$this->site_id = get_current_blog_id();
 
-		$test_save = apply_filters( "cmb2_override_option_save_{$this->key}", 'cmb2_no_override_option_save', $this->options, $this );
+		// Our own write must not be mistaken for an outside change.
+		$this->saving = true;
 
-		if ( 'cmb2_no_override_option_save' !== $test_save ) {
-			// If overridden, do not proceed to update the option, just return result.
+		try {
+			$test_save = apply_filters( "cmb2_override_option_save_{$this->key}", 'cmb2_no_override_option_save', $this->options, $this );
+
+			if ( 'cmb2_no_override_option_save' !== $test_save ) {
+				// If overridden, do not proceed to update the option, just return result.
+				return true;
+			}
+
+			/**
+			 * Whether to auto-load the option when WordPress starts up.
+			 *
+			 * The dynamic portion of the hook name, $this->key, refers to the option key.
+			 *
+			 * @since 2.4.0
+			 *
+			 * @param bool        $autoload   Whether to load the option when WordPress starts up.
+			 * @param CMB2_Option $cmb_option This object.
+			 */
+			$autoload = apply_filters( "cmb2_should_autoload_{$this->key}", true, $this );
+
+			if ( update_option(
+				$this->key,
+				$this->options,
+				! ( ! $autoload || 'no' === $autoload )
+			) ) {
+				$this->options = wp_unslash( get_option( $this->key ) );
+			}
 			return true;
+		} finally {
+			$this->saving = false;
 		}
-
-		/**
-		 * Whether to auto-load the option when WordPress starts up.
-		 *
-		 * The dynamic portion of the hook name, $this->key, refers to the option key.
-		 *
-		 * @since 2.4.0
-		 *
-		 * @param bool        $autoload   Whether to load the option when WordPress starts up.
-		 * @param CMB2_Option $cmb_option This object.
-		 */
-		$autoload = apply_filters( "cmb2_should_autoload_{$this->key}", true, $this );
-
-		if ( update_option(
-			$this->key,
-			$this->options,
-			! ( ! $autoload || 'no' === $autoload )
-		) ) {
-			$this->options = wp_unslash( get_option( $this->key ) );
-		}
-		return true;
 	}
 
 
@@ -241,7 +323,7 @@ class CMB2_Option {
 	 * @return mixed          Value set for the option.
 	 */
 	public function get_options( $default = null ) {
-		if ( ! $this->retrieved && ! empty( $this->key ) ) {
+		if ( ! empty( $this->key ) && ( ! $this->retrieved || get_current_blog_id() !== $this->site_id ) ) {
 			$test_get = apply_filters( "cmb2_override_option_get_{$this->key}", 'cmb2_no_override_option_get', $default, $this );
 
 			if ( 'cmb2_no_override_option_get' !== $test_get ) {
@@ -251,6 +333,7 @@ class CMB2_Option {
 				$this->options = get_option( $this->key, $default );
 			}
 			$this->retrieved = true;
+			$this->site_id = get_current_blog_id();
 		}
 
 		$this->options = (array) \apply_filters( "cmb2_options_get_{$this->key}", $this->options, $this );
@@ -258,12 +341,14 @@ class CMB2_Option {
 		return $this->options;
 	}
 
+
 	/**
 	 * Magic getter for our object.
 	 *
 	 * @since 2.6.0
 	 *
 	 * @param string $field Requested property.
+	 *
 	 * @throws Exception Throws an exception if the field is invalid.
 	 * @return mixed
 	 */
